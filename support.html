@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>고객센터 | 몽젤로·젤로베베</title>
+  <meta name="description" content="사이즈 가이드, 자주 묻는 질문, 카카오톡 문의. 몽젤로·젤로베베 고객센터.">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ========== 와이어프레임 공통 (index.html과 동일) ========== */
+    :root {
+      --text-black: #1A1A1A; --text-dark: #333333; --text-gray: #666666;
+      --text-light: #999999; --text-muted: #BCBCBC;
+      --bg-white: #FFFFFF; --bg-light: #F5F5F5; --bg-dark: #2D2D2D; --bg-black: #1A1A1A;
+      --border-light: #E0E0E0; --border-default: #D0D0D0;
+      --placeholder-bg: #E0E0E0; --placeholder-icon: #BCBCBC;
+      --radius-sm: 8px; --radius-md: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Pretendard', sans-serif; color: var(--text-gray); line-height: 1.6; background: var(--bg-white); }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; font-family: inherit; background: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; transition: opacity 0.2s; }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--text-black); color: #FFFFFF; border: 1px solid var(--text-black); }
+    .btn-secondary { background: var(--bg-white); color: var(--text-black); border: 1px solid var(--border-default); }
+    .section-label { font-size: 14px; font-weight: 600; color: var(--text-light); margin-bottom: 12px; }
+    .section-title { font-size: 36px; font-weight: 700; color: var(--text-black); line-height: 1.3; margin-bottom: 16px; }
+    .section-desc { font-size: 16px; color: var(--text-gray); line-height: 1.7; max-width: 560px; }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .microcopy { font-size: 13px; color: var(--text-light); margin-top: 10px; }
+    .img-placeholder { background: var(--placeholder-bg); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; width: 100%; }
+    .img-placeholder svg { color: var(--placeholder-icon); width: 48px; height: 48px; }
+
+    /* ========== 공통 헤더 ========== */
+    .site-header { position: sticky; top: 0; z-index: 1000; background: var(--bg-white); border-bottom: 1px solid var(--border-light); transition: transform 0.25s ease; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; transition: height 0.2s ease; }
+    .site-header.is-compact .header-inner { height: 60px; }
+    .site-header.is-compact .header-logo { font-size: 18px; }
+    .site-header.is-hidden { transform: translateY(-100%); }
+    .header-logo { font-size: 21px; font-weight: 800; color: var(--text-black); letter-spacing: 2px; transition: font-size 0.2s ease; }
+    .gnb { display: flex; gap: 32px; }
+    .gnb-item { position: relative; }
+    .gnb-item > a { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 500; color: var(--text-dark); padding: 24px 0; }
+    .gnb-item > a.is-current { font-weight: 700; color: var(--text-black); border-bottom: 2px solid var(--text-black); }
+    .gnb-item > a svg { width: 14px; height: 14px; color: var(--text-light); }
+    .gnb-dropdown { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); min-width: 180px; background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); padding: 8px 0; }
+    .gnb-item:hover .gnb-dropdown { display: block; }
+    .gnb-dropdown a { display: block; padding: 9px 20px; font-size: 14px; color: var(--text-gray); white-space: nowrap; }
+    .gnb-dropdown a:hover { background: var(--bg-light); color: var(--text-black); }
+    .gnb-dropdown a strong { color: var(--text-black); font-weight: 700; }
+    .header-utils { display: flex; align-items: center; gap: 16px; }
+    .util-icon { position: relative; display: inline-flex; padding: 4px; }
+    .util-icon svg { width: 24px; height: 24px; color: var(--text-dark); stroke-width: 2; }
+    .cart-badge { position: absolute; top: -2px; right: -4px; min-width: 16px; height: 16px; border-radius: 8px; background: var(--text-black); color: #FFFFFF; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .hamburger-btn { display: none; padding: 4px; }
+    .hamburger-btn svg { width: 24px; height: 24px; color: var(--text-dark); }
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1100; display: none; }
+    .drawer-overlay.is-open { display: block; }
+    .drawer { position: fixed; top: 0; left: 0; width: 85%; max-width: 360px; height: 100%; background: var(--bg-white); z-index: 1200; transform: translateX(-100%); transition: transform 0.25s ease; overflow-y: auto; }
+    .drawer.is-open { transform: translateX(0); }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 20px; border-bottom: 1px solid var(--border-light); }
+    .drawer-head .header-logo { font-size: 18px; }
+    .drawer-close svg { width: 24px; height: 24px; color: var(--text-dark); }
+    .drawer-menu > li { border-bottom: 1px solid var(--border-light); }
+    .drawer-menu > li > a, .drawer-acc-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px 20px; font-size: 16px; font-weight: 600; color: var(--text-black); text-align: left; }
+    .drawer-acc-btn svg { width: 18px; height: 18px; color: var(--text-light); transition: transform 0.2s; }
+    .drawer-acc.is-open .drawer-acc-btn svg { transform: rotate(180deg); }
+    .drawer-sub { display: none; background: var(--bg-light); padding: 8px 0; }
+    .drawer-acc.is-open .drawer-sub { display: block; }
+    .drawer-sub a { display: block; padding: 10px 28px; font-size: 14px; color: var(--text-gray); }
+    .drawer-sub a strong { color: var(--text-black); }
+
+    /* ==========================================
+       섹션 1: 사이즈 가이드 — 탭(젤로베베/몽젤로) + 표 (상단 우선 배치)
+       ========================================== */
+    .sizeguide-section { padding: 64px 0 80px; background: var(--bg-white); }
+    .size-tabs { display: flex; justify-content: center; gap: 8px; margin: 32px 0; }
+    .size-tab { padding: 12px 32px; border-radius: 999px; border: 1px solid var(--border-default); background: var(--bg-white); font-size: 15px; font-weight: 600; color: var(--text-gray); }
+    .size-tab.is-active { background: var(--text-black); color: #FFFFFF; border-color: var(--text-black); }
+    .size-panel { max-width: 860px; margin: 0 auto; }
+    .size-panel.is-hidden { display: none; }
+    .wf-table { width: 100%; border-collapse: collapse; background: var(--bg-white); font-size: 14px; }
+    .wf-table th, .wf-table td { border: 1px solid var(--border-light); padding: 12px 16px; text-align: left; white-space: nowrap; }
+    .wf-table th { background: var(--bg-light); color: var(--text-black); font-weight: 700; }
+    .wf-table td { color: var(--text-gray); }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-scroll .wf-table { min-width: 640px; }
+
+    /* ==========================================
+       섹션 2: FAQ — 카테고리 탭 + 질문 아코디언
+       ========================================== */
+    .faq-section { padding: 80px 0; background: var(--bg-light); }
+    .faq-cat-tabs { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 32px 0; }
+    .faq-cat-tab { padding: 10px 20px; border-radius: 999px; border: 1px solid var(--border-default); background: var(--bg-white); font-size: 14px; font-weight: 600; color: var(--text-gray); }
+    .faq-cat-tab.is-active { background: var(--text-black); color: #FFFFFF; border-color: var(--text-black); }
+    .faq-list { max-width: 720px; margin: 0 auto; background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 8px 24px; }
+    .faq-item { border-bottom: 1px solid var(--border-light); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 0; font-size: 16px; font-weight: 600; color: var(--text-black); text-align: left; }
+    .faq-question svg { width: 20px; height: 20px; color: var(--text-light); flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.is-open .faq-question svg { transform: rotate(180deg); }
+    .faq-answer { display: none; padding: 0 0 20px; font-size: 15px; color: var(--text-gray); line-height: 1.7; }
+    .faq-item.is-open .faq-answer { display: block; }
+
+    /* ==========================================
+       섹션 3: 문의 채널 — 큰 카톡 단일 CTA + 보조 정보
+       ========================================== */
+    .contact-section { padding: 80px 0; background: var(--bg-white); text-align: center; }
+    .kakao-cta { display: inline-flex; align-items: center; gap: 10px; padding: 20px 48px; font-size: 17px; margin-top: 8px; }
+    .kakao-cta svg { width: 22px; height: 22px; }
+    .contact-aux { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 28px; font-size: 14px; color: var(--text-gray); }
+    .contact-aux-item { display: inline-flex; align-items: center; gap: 6px; }
+    .contact-aux-item svg { width: 16px; height: 16px; color: var(--text-dark); }
+    .contact-aux-item a { text-decoration: underline; }
+
+    /* ==========================================
+       섹션 4: 공지사항 — 리스트 (제목·날짜)
+       ========================================== */
+    .notice-section { padding: 80px 0 96px; background: var(--bg-light); }
+    .notice-list { max-width: 860px; margin: 40px auto 0; background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-md); overflow: hidden; }
+    .notice-item { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 24px; border-bottom: 1px solid var(--border-light); }
+    .notice-item:last-child { border-bottom: none; }
+    .notice-item-title { font-size: 15px; font-weight: 600; color: var(--text-black); }
+    .notice-item-date { font-size: 13px; color: var(--text-light); white-space: nowrap; }
+
+    /* ========== 공통 푸터 ========== */
+    .site-footer { padding: 60px 0 32px; background: var(--bg-white); border-top: 1px solid var(--border-light); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--border-light); }
+    .footer-brand-name { font-size: 18px; font-weight: 800; color: var(--text-black); letter-spacing: 1px; margin-bottom: 12px; }
+    .footer-company-info { font-size: 13px; color: var(--text-light); line-height: 1.8; }
+    .footer-col-title { font-size: 14px; font-weight: 700; color: var(--text-black); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; width: 100%; text-align: left; }
+    .footer-col-title svg { display: none; width: 16px; height: 16px; color: var(--text-light); transition: transform 0.2s; }
+    .footer-col-links a { display: block; font-size: 14px; color: var(--text-light); padding: 4px 0; }
+    .footer-sns-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-gray); padding: 4px 0; }
+    .footer-sns-link svg { width: 18px; height: 18px; }
+    .footer-newsletter-note { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 24px; font-size: 13px; color: var(--text-muted); }
+    .footer-policy a { color: var(--text-gray); margin-left: 16px; }
+    .footer-policy a.privacy { font-weight: 700; color: var(--text-dark); }
+    .escrow-slot { display: inline-flex; align-items: center; justify-content: center; width: 120px; height: 36px; background: var(--bg-light); border: 1px dashed var(--border-default); border-radius: 4px; font-size: 11px; color: var(--text-light); }
+
+    /* ========== 플로팅 ========== */
+    .floating-stack { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 12px; z-index: 1500; }
+    .floating-btn { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); }
+    .floating-kakao { background: var(--text-black); }
+    .floating-kakao svg { width: 24px; height: 24px; color: #FFFFFF; }
+    .floating-top { background: var(--bg-white); border: 1px solid var(--border-default); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .floating-top.is-visible { opacity: 1; pointer-events: auto; }
+    .floating-top svg { width: 22px; height: 22px; color: var(--text-dark); }
+
+    /* ========== 반응형 ========== */
+    @media (max-width: 768px) {
+      .section-title { font-size: 26px; }
+      .header-inner { height: 56px; }
+      .site-header.is-compact .header-inner { height: 56px; }
+      .gnb { display: none; }
+      .hamburger-btn { display: inline-flex; }
+      .header-logo { font-size: 18px; }
+
+      .sizeguide-section { padding: 48px 0 64px; }
+      .faq-section, .contact-section { padding: 64px 0; }
+      .notice-section { padding: 64px 0 72px; }
+      .faq-list { padding: 4px 16px; }
+      .kakao-cta { width: 100%; justify-content: center; }
+      .contact-aux { flex-direction: column; gap: 10px; align-items: center; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 0; }
+      .footer-brand-col { padding-bottom: 24px; }
+      .footer-col { border-top: 1px solid var(--border-light); }
+      .footer-col-title { margin-bottom: 0; padding: 16px 0; cursor: pointer; }
+      .footer-col-title svg { display: inline-block; }
+      .footer-col.is-open .footer-col-title svg { transform: rotate(180deg); }
+      .footer-col-links { display: none; padding-bottom: 16px; }
+      .footer-col.is-open .footer-col-links { display: block; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .floating-stack { right: 16px; bottom: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== 공통 헤더 ========== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="header-logo">MONGJELO</a>
+        <nav class="gnb">
+          <div class="gnb-item">
+            <a href="mongjelo.html">몽젤로 <i data-lucide="chevron-down"></i></a>
+            <div class="gnb-dropdown">
+              <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+              <a href="mongjelo.html">아우터</a>
+              <a href="mongjelo.html">상의</a>
+              <a href="mongjelo.html">하의</a>
+              <a href="mongjelo.html">세트</a>
+              <a href="mongjelo.html">기능성·액티브</a>
+              <a href="mongjelo.html">소품</a>
+            </div>
+          </div>
+          <div class="gnb-item">
+            <a href="zelobebe.html">젤로베베 <i data-lucide="chevron-down"></i></a>
+            <div class="gnb-dropdown">
+              <a href="zelobebe.html">아우터</a>
+              <a href="zelobebe.html">상의</a>
+              <a href="zelobebe.html">하의</a>
+              <a href="zelobebe.html">세트·한벌</a>
+              <a href="zelobebe.html">이너·베이직</a>
+              <a href="zelobebe.html">소품(모자·가방)</a>
+              <a href="zelobebe.html">오가닉</a>
+            </div>
+          </div>
+          <div class="gnb-item"><a href="story.html">브랜드 스토리</a></div>
+          <div class="gnb-item"><a href="lookbook.html">룩북</a></div>
+          <div class="gnb-item"><a href="review.html">리뷰</a></div>
+          <div class="gnb-item"><a href="support.html" class="is-current">고객센터</a></div>
+        </nav>
+        <div class="header-utils">
+          <a href="#" class="util-icon" aria-label="장바구니"><i data-lucide="shopping-bag"></i><span class="cart-badge">0</span></a>
+          <a href="#" class="util-icon" aria-label="마이페이지"><i data-lucide="user"></i></a>
+          <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기"><i data-lucide="menu"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 모바일 드로어 -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <span class="header-logo">MONGJELO</span>
+      <button class="drawer-close" id="drawerClose" aria-label="메뉴 닫기"><i data-lucide="x"></i></button>
+    </div>
+    <ul class="drawer-menu">
+      <li class="drawer-acc">
+        <button class="drawer-acc-btn">몽젤로 <i data-lucide="chevron-down"></i></button>
+        <div class="drawer-sub">
+          <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+          <a href="mongjelo.html">아우터</a><a href="mongjelo.html">상의</a><a href="mongjelo.html">하의</a>
+          <a href="mongjelo.html">세트</a><a href="mongjelo.html">기능성·액티브</a><a href="mongjelo.html">소품</a>
+        </div>
+      </li>
+      <li class="drawer-acc">
+        <button class="drawer-acc-btn">젤로베베 <i data-lucide="chevron-down"></i></button>
+        <div class="drawer-sub">
+          <a href="zelobebe.html">아우터</a><a href="zelobebe.html">상의</a><a href="zelobebe.html">하의</a>
+          <a href="zelobebe.html">세트·한벌</a><a href="zelobebe.html">이너·베이직</a>
+          <a href="zelobebe.html">소품(모자·가방)</a><a href="zelobebe.html">오가닉</a>
+        </div>
+      </li>
+      <li><a href="story.html">브랜드 스토리</a></li>
+      <li><a href="lookbook.html">룩북</a></li>
+      <li><a href="review.html">리뷰</a></li>
+      <li><a href="support.html">고객센터</a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <!-- ==========================================
+         섹션 1: 사이즈 가이드 — 가장 큰 불안, 상단 우선 배치
+         탭(젤로베베/몽젤로) + 사이즈 표 (가로 스크롤)
+         ========================================== -->
+    <section class="sizeguide-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">SUPPORT</p>
+          <h1 class="section-title">무엇을 도와드릴까요</h1>
+        </div>
+
+        <div class="text-center" style="margin-top:48px;">
+          <h2 class="section-title" style="font-size:28px;">사이즈 가이드</h2>
+        </div>
+        <div class="size-tabs">
+          <button class="size-tab is-active" data-tab="zelobebe">젤로베베 (영유아)</button>
+          <button class="size-tab" data-tab="mongjelo">몽젤로 (키즈)</button>
+        </div>
+
+        <!-- 젤로베베 사이즈 표 [플레이스홀더 — 실측표 확정] -->
+        <div class="size-panel" id="size-zelobebe">
+          <div class="table-scroll">
+            <table class="wf-table">
+              <tr><th>사이즈</th><th>개월수</th><th>키(cm)</th><th>몸무게(kg)</th><th>가슴단면</th><th>총장</th></tr>
+              <tr><td>00</td><td>0~6개월</td><td>00~00</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>00</td><td>6~12개월</td><td>00~00</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>00</td><td>1~2세</td><td>00~00</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>00</td><td>3~4세</td><td>00~00</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>00</td><td>5~7세</td><td>00~00</td><td>00</td><td>00</td><td>00</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- 몽젤로 사이즈 표 [플레이스홀더 — 실측표 확정] -->
+        <div class="size-panel is-hidden" id="size-mongjelo">
+          <div class="table-scroll">
+            <table class="wf-table">
+              <tr><th>사이즈</th><th>나이</th><th>키(cm)</th><th>가슴단면</th><th>어깨너비</th><th>총장</th></tr>
+              <tr><td>S</td><td>8~9세</td><td>000~000</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>M</td><td>10~11세</td><td>000~000</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>L</td><td>12~13세</td><td>000~000</td><td>00</td><td>00</td><td>00</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 2: 자주 묻는 질문 (FAQ)
+         카테고리 탭 + 질문 아코디언
+         ========================================== -->
+    <section class="faq-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">FAQ</p>
+          <h2 class="section-title">자주 묻는 질문</h2>
+        </div>
+
+        <!-- 카테고리 탭: 사이즈/소재 · 배송 · 교환·반품 · 결제·적립 · 회원 -->
+        <div class="faq-cat-tabs">
+          <button class="faq-cat-tab is-active">사이즈/소재</button>
+          <button class="faq-cat-tab">배송</button>
+          <button class="faq-cat-tab">교환·반품</button>
+          <button class="faq-cat-tab">결제·적립</button>
+          <button class="faq-cat-tab">회원 (카톡 로그인)</button>
+        </div>
+
+        <!-- 인터뷰 기반 핵심 Q 포함 아코디언 [자동적용 — 초기 시드 FAQ] -->
+        <div class="faq-list">
+          <div class="faq-item is-open">
+            <button class="faq-question">사이즈가 안 맞으면 어떻게 하나요? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">교환/반품 절차 안내 [플레이스홀더 — 교환정책 확정]</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">소재가 어떻게 되나요? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">상품별 혼용률·소재 안내 [플레이스홀더]</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">오가닉 라벨은 뭔가요? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">오가닉 라인·인증 기준 안내 [플레이스홀더 — 인증 표식 확정]</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">언제 도착하나요? <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">배송 일정 안내 [플레이스홀더 — 배송정책 확정]</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">질문 항목 [자동적용 — 초기 시드 FAQ] <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">답변 [플레이스홀더]</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 3: 문의 채널 — 카톡 큰 단일 CTA (전화보다 카톡 우선)
+         ========================================== -->
+    <section class="contact-section">
+      <div class="container">
+        <p class="section-label">CONTACT</p>
+        <h2 class="section-title">더 궁금한 점은 카톡으로 편하게</h2>
+        <a href="#" class="btn btn-primary kakao-cta"><i data-lucide="message-circle"></i> 카카오톡 채널 문의하기</a>
+        <!-- [플레이스홀더 — 카카오 채널 확정] -->
+        <div class="contact-aux">
+          <span class="contact-aux-item"><i data-lucide="clock"></i> 운영시간: 평일 00:00~00:00 [플레이스홀더]</span>
+          <span class="contact-aux-item"><i data-lucide="megaphone"></i> <a href="#notice">공지사항 보기</a></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 4: 공지사항 — 리스트 (제목·날짜)
+         ========================================== -->
+    <section class="notice-section" id="notice">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">NOTICE</p>
+          <h2 class="section-title">공지사항</h2>
+        </div>
+        <div class="notice-list">
+          <a href="#" class="notice-item">
+            <span class="notice-item-title">[배송] 배송 지연 안내 [플레이스홀더]</span>
+            <span class="notice-item-date">0000.00.00</span>
+          </a>
+          <a href="#" class="notice-item">
+            <span class="notice-item-title">[시즌] 시즌 오픈 안내 [플레이스홀더]</span>
+            <span class="notice-item-date">0000.00.00</span>
+          </a>
+          <a href="#" class="notice-item">
+            <span class="notice-item-title">[이벤트] 이벤트 공지 [플레이스홀더]</span>
+            <span class="notice-item-date">0000.00.00</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== 공통 푸터 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <p class="footer-brand-name">MONGJELO</p>
+          <p class="footer-company-info">
+            상호 [플레이스홀더] · 대표자 [플레이스홀더]<br>
+            사업자등록번호 [플레이스홀더]<br>
+            통신판매업신고 [플레이스홀더]<br>
+            주소 [플레이스홀더]<br>
+            전화 [플레이스홀더] · 이메일 [플레이스홀더]
+          </p>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">쇼핑 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="mongjelo.html">몽젤로</a>
+            <a href="zelobebe.html">젤로베베</a>
+            <a href="story.html">브랜드 스토리</a>
+            <a href="lookbook.html">룩북</a>
+            <a href="review.html">리뷰</a>
+            <a href="support.html">고객센터</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">고객지원 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="support.html">사이즈 가이드</a>
+            <a href="support.html">배송/교환/반품</a>
+            <a href="support.html">자주 묻는 질문</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">SNS·뉴스레터 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="#" class="footer-sns-link" target="_blank" rel="noopener"><i data-lucide="instagram"></i> 인스타그램</a>
+            <p class="footer-newsletter-note">브랜딩 핵심 채널</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© MONGJELO. All rights reserved.</span>
+        <span class="escrow-slot">에스크로 마크 [플레이스홀더]</span>
+        <span class="footer-policy">
+          <a href="#" class="privacy">개인정보처리방침</a>
+          <a href="#">이용약관</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== 플로팅: 카카오 문의 + TOP ========== -->
+  <div class="floating-stack">
+    <a href="#" class="floating-btn floating-kakao" aria-label="카카오톡 문의"><i data-lucide="message-circle"></i></a>
+    <button class="floating-btn floating-top" id="topBtn" aria-label="맨 위로"><i data-lucide="arrow-up"></i></button>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    /* 모바일 드로어 */
+    (function () {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      document.getElementById('hamburgerBtn').addEventListener('click', () => { drawer.classList.add('is-open'); overlay.classList.add('is-open'); });
+      const close = () => { drawer.classList.remove('is-open'); overlay.classList.remove('is-open'); };
+      document.getElementById('drawerClose').addEventListener('click', close);
+      overlay.addEventListener('click', close);
+      document.querySelectorAll('.drawer-acc-btn').forEach(btn => {
+        btn.addEventListener('click', () => btn.closest('.drawer-acc').classList.toggle('is-open'));
+      });
+    })();
+
+    /* 헤더 스크롤 동작 */
+    (function () {
+      const header = document.getElementById('siteHeader');
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        header.classList.toggle('is-compact', y > 80);
+        if (window.innerWidth <= 768) {
+          if (y > lastY && y > 120) header.classList.add('is-hidden');
+          else header.classList.remove('is-hidden');
+        } else { header.classList.remove('is-hidden'); }
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    /* 플로팅 TOP */
+    (function () {
+      const topBtn = document.getElementById('topBtn');
+      window.addEventListener('scroll', () => topBtn.classList.toggle('is-visible', window.scrollY > 400), { passive: true });
+      topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+
+    /* 푸터 아코디언 (모바일) */
+    document.querySelectorAll('.footer-col-title').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 768) btn.closest('.footer-col').classList.toggle('is-open');
+      });
+    });
+
+    /* 사이즈 가이드 탭 (젤로베베/몽젤로) */
+    (function () {
+      const tabs = document.querySelectorAll('.size-tab');
+      const panels = {
+        zelobebe: document.getElementById('size-zelobebe'),
+        mongjelo: document.getElementById('size-mongjelo')
+      };
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('is-active'));
+          tab.classList.add('is-active');
+          const key = tab.dataset.tab;
+          Object.keys(panels).forEach(k => panels[k].classList.toggle('is-hidden', k !== key));
+        });
+      });
+    })();
+
+    /* FAQ 카테고리 탭 (와이어프레임 데모 — 활성 표시만) */
+    document.querySelectorAll('.faq-cat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.faq-cat-tab').forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+      });
+    });
+
+    /* FAQ 아코디언 */
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => btn.closest('.faq-item').classList.toggle('is-open'));
+    });
+  </script>
+</body>
+</html>

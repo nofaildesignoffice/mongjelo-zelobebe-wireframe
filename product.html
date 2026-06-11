@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- title 패턴: [상품명] | [몽젤로/젤로베베] -->
+  <title>[상품명] | 몽젤로·젤로베베</title>
+  <meta name="description" content="[상품명] — 직접 보고 짓는 정직한 소재의 유아동복.">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ==========================================================
+       상품 상세 — 동적 템플릿 1개 (비네비 페이지)
+       변형 2종 (콘텐츠만 교체, 레이아웃 동일):
+       · 몽젤로형  : 핏/활동성/관리 편의 중심 ("스펙 → 생활 장면" 치환)
+       · 젤로베베형 : 소재 안전/촉감/세탁 내구 중심 + 오가닉 인증 표식
+       변형 지점은 본문에 [몽젤로형] / [젤로베베형] 주석으로 표시
+       ========================================================== */
+
+    /* ========== 와이어프레임 공통 (index.html과 동일) ========== */
+    :root {
+      --text-black: #1A1A1A; --text-dark: #333333; --text-gray: #666666;
+      --text-light: #999999; --text-muted: #BCBCBC;
+      --bg-white: #FFFFFF; --bg-light: #F5F5F5; --bg-dark: #2D2D2D; --bg-black: #1A1A1A;
+      --border-light: #E0E0E0; --border-default: #D0D0D0;
+      --placeholder-bg: #E0E0E0; --placeholder-icon: #BCBCBC;
+      --radius-sm: 8px; --radius-md: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Pretendard', sans-serif; color: var(--text-gray); line-height: 1.6; background: var(--bg-white); }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; font-family: inherit; background: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 28px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; transition: opacity 0.2s; }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--text-black); color: #FFFFFF; border: 1px solid var(--text-black); }
+    .btn-secondary { background: var(--bg-white); color: var(--text-black); border: 1px solid var(--border-default); }
+    .section-label { font-size: 14px; font-weight: 600; color: var(--text-light); margin-bottom: 12px; }
+    .section-title { font-size: 36px; font-weight: 700; color: var(--text-black); line-height: 1.3; margin-bottom: 16px; }
+    .section-desc { font-size: 16px; color: var(--text-gray); line-height: 1.7; max-width: 560px; }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .microcopy { font-size: 13px; color: var(--text-light); margin-top: 10px; }
+    .img-placeholder { background: var(--placeholder-bg); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; width: 100%; }
+    .img-placeholder svg { color: var(--placeholder-icon); width: 48px; height: 48px; }
+    .icon-box { width: 48px; height: 48px; border-radius: var(--radius-sm); background: var(--bg-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .icon-box svg { width: 24px; height: 24px; color: var(--text-dark); }
+
+    /* ========== 공통 헤더 ========== */
+    .site-header { position: sticky; top: 0; z-index: 1000; background: var(--bg-white); border-bottom: 1px solid var(--border-light); transition: transform 0.25s ease; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; transition: height 0.2s ease; }
+    .site-header.is-compact .header-inner { height: 60px; }
+    .site-header.is-compact .header-logo { font-size: 18px; }
+    .site-header.is-hidden { transform: translateY(-100%); }
+    .header-logo { font-size: 21px; font-weight: 800; color: var(--text-black); letter-spacing: 2px; transition: font-size 0.2s ease; }
+    .gnb { display: flex; gap: 32px; }
+    .gnb-item { position: relative; }
+    .gnb-item > a { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 500; color: var(--text-dark); padding: 24px 0; }
+    .gnb-item > a svg { width: 14px; height: 14px; color: var(--text-light); }
+    .gnb-dropdown { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); min-width: 180px; background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); padding: 8px 0; }
+    .gnb-item:hover .gnb-dropdown { display: block; }
+    .gnb-dropdown a { display: block; padding: 9px 20px; font-size: 14px; color: var(--text-gray); white-space: nowrap; }
+    .gnb-dropdown a:hover { background: var(--bg-light); color: var(--text-black); }
+    .gnb-dropdown a strong { color: var(--text-black); font-weight: 700; }
+    .header-utils { display: flex; align-items: center; gap: 16px; }
+    .util-icon { position: relative; display: inline-flex; padding: 4px; }
+    .util-icon svg { width: 24px; height: 24px; color: var(--text-dark); stroke-width: 2; }
+    .cart-badge { position: absolute; top: -2px; right: -4px; min-width: 16px; height: 16px; border-radius: 8px; background: var(--text-black); color: #FFFFFF; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .hamburger-btn { display: none; padding: 4px; }
+    .hamburger-btn svg { width: 24px; height: 24px; color: var(--text-dark); }
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1100; display: none; }
+    .drawer-overlay.is-open { display: block; }
+    .drawer { position: fixed; top: 0; left: 0; width: 85%; max-width: 360px; height: 100%; background: var(--bg-white); z-index: 1200; transform: translateX(-100%); transition: transform 0.25s ease; overflow-y: auto; }
+    .drawer.is-open { transform: translateX(0); }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 20px; border-bottom: 1px solid var(--border-light); }
+    .drawer-head .header-logo { font-size: 18px; }
+    .drawer-close svg { width: 24px; height: 24px; color: var(--text-dark); }
+    .drawer-menu > li { border-bottom: 1px solid var(--border-light); }
+    .drawer-menu > li > a, .drawer-acc-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px 20px; font-size: 16px; font-weight: 600; color: var(--text-black); text-align: left; }
+    .drawer-acc-btn svg { width: 18px; height: 18px; color: var(--text-light); transition: transform 0.2s; }
+    .drawer-acc.is-open .drawer-acc-btn svg { transform: rotate(180deg); }
+    .drawer-sub { display: none; background: var(--bg-light); padding: 8px 0; }
+    .drawer-acc.is-open .drawer-sub { display: block; }
+    .drawer-sub a { display: block; padding: 10px 28px; font-size: 14px; color: var(--text-gray); }
+    .drawer-sub a strong { color: var(--text-black); }
+
+    /* ==========================================
+       섹션 1: 갤러리 + 구매 영역 (Above the fold)
+       PC 좌우 분할 — 좌 갤러리 sticky / 우 구매 정보
+       ========================================== */
+    .pdp-top { padding: 48px 0 80px; background: var(--bg-white); }
+    .pdp-top-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: start; }
+    .pdp-gallery { position: sticky; top: 96px; }
+    .pdp-gallery-main .img-placeholder { aspect-ratio: 1/1; }
+    .pdp-thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 8px; }
+    .pdp-thumb { aspect-ratio: 1/1; background: var(--placeholder-bg); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; cursor: pointer; }
+    .pdp-thumb.is-active { border-color: var(--text-black); }
+    .pdp-thumb svg { width: 20px; height: 20px; color: var(--placeholder-icon); }
+    /* 우측 구매 정보 */
+    .pdp-brand { font-size: 13px; font-weight: 700; color: var(--text-light); letter-spacing: 1px; margin-bottom: 8px; }
+    .pdp-name { font-size: 26px; font-weight: 700; color: var(--text-black); line-height: 1.35; margin-bottom: 12px; }
+    .pdp-rating-row { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-gray); margin-bottom: 20px; }
+    .pdp-rating-row svg { width: 15px; height: 15px; color: var(--text-dark); }
+    .pdp-rating-row .review-anchor { text-decoration: underline; color: var(--text-gray); }
+    .pdp-price-block { padding: 20px 0; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); margin-bottom: 24px; }
+    .pdp-price { font-size: 28px; font-weight: 800; color: var(--text-black); }
+    .pdp-coupon-price { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 15px; }
+    .pdp-coupon-price .coupon-tag { padding: 2px 8px; background: var(--text-black); color: #FFFFFF; font-size: 11px; font-weight: 700; border-radius: 4px; }
+    .pdp-coupon-price strong { color: var(--text-black); }
+    .pdp-option-group { margin-bottom: 14px; }
+    .pdp-option-label { font-size: 14px; font-weight: 700; color: var(--text-black); margin-bottom: 8px; }
+    .pdp-select { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border: 1px solid var(--border-default); border-radius: var(--radius-sm); font-size: 14px; color: var(--text-gray); background: var(--bg-white); }
+    .pdp-select svg { width: 16px; height: 16px; color: var(--text-light); }
+    .qty-stepper { display: inline-flex; align-items: center; border: 1px solid var(--border-default); border-radius: var(--radius-sm); }
+    .qty-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+    .qty-btn svg { width: 16px; height: 16px; color: var(--text-dark); }
+    .qty-value { width: 48px; text-align: center; font-size: 15px; font-weight: 600; color: var(--text-black); }
+    .pdp-cta-row { display: flex; gap: 8px; margin-top: 24px; }
+    .pdp-cta-row .btn { flex: 1; padding: 16px 0; font-size: 16px; }
+    .pdp-wish { flex: 0 0 56px !important; padding: 0 !important; }
+    .pdp-wish svg { width: 20px; height: 20px; }
+    /* 적립·배송 안내 */
+    .pdp-benefit { margin-top: 24px; padding: 16px 20px; background: var(--bg-light); border-radius: var(--radius-sm); }
+    .pdp-benefit-row { display: flex; gap: 10px; font-size: 13px; color: var(--text-gray); padding: 4px 0; }
+    .pdp-benefit-row svg { width: 15px; height: 15px; color: var(--text-dark); flex-shrink: 0; margin-top: 3px; }
+
+    /* ==========================================
+       섹션 2: 핵심 셀링 포인트 3컷 — 가로 3컬럼 아이콘+카피
+       ========================================== */
+    .selling-section { padding: 80px 0; background: var(--bg-light); }
+    .selling-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .selling-card { background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 32px; text-align: center; }
+    .selling-card .icon-box { margin: 0 auto 20px; }
+    .selling-card-title { font-size: 17px; font-weight: 700; color: var(--text-black); margin-bottom: 8px; }
+    .selling-card-desc { font-size: 14px; color: var(--text-gray); line-height: 1.6; }
+
+    /* ==========================================
+       섹션 3: 디테일 이미지 (롱 스크롤) — 풀폭 세로 나열 + GIF/숏폼 징검다리
+       ========================================== */
+    .detail-section { padding: 80px 0; background: var(--bg-white); }
+    .detail-stack { max-width: 860px; margin: 48px auto 0; display: flex; flex-direction: column; gap: 16px; }
+    .detail-img { aspect-ratio: 4/5; }
+    .detail-video { aspect-ratio: 16/9; background: var(--bg-dark); border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+    .detail-video svg { width: 48px; height: 48px; color: rgba(255,255,255,0.5); }
+    .detail-video span { font-size: 13px; color: rgba(255,255,255,0.5); }
+
+    /* ==========================================
+       섹션 4: 소재·케어 정보 — 고밀도 표
+       ========================================== */
+    .care-section { padding: 80px 0; background: var(--bg-light); }
+    .care-tables { max-width: 860px; margin: 48px auto 0; display: flex; flex-direction: column; gap: 32px; }
+    .care-table-title { font-size: 16px; font-weight: 700; color: var(--text-black); margin-bottom: 12px; }
+    .wf-table { width: 100%; border-collapse: collapse; background: var(--bg-white); font-size: 14px; }
+    .wf-table th, .wf-table td { border: 1px solid var(--border-light); padding: 12px 16px; text-align: left; }
+    .wf-table th { background: var(--bg-light); color: var(--text-black); font-weight: 700; white-space: nowrap; }
+    .wf-table td { color: var(--text-gray); }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-scroll .wf-table { min-width: 640px; }
+    .cert-slot { display: flex; gap: 12px; margin-top: 12px; }
+    .cert-badge { width: 72px; height: 72px; background: var(--bg-white); border: 1px dashed var(--border-default); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-light); text-align: center; padding: 4px; }
+
+    /* ==========================================
+       섹션 5: 사이즈 가이드 (불안 해소)
+       ========================================== */
+    .sizeguide-section { padding: 80px 0; background: var(--bg-white); }
+    .sizeguide-inner { max-width: 860px; margin: 0 auto; }
+    .sizeguide-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+
+    /* ==========================================
+       섹션 6: 포토 리뷰
+       ========================================== */
+    .pdp-review-section { padding: 80px 0; background: var(--bg-light); }
+    .review-summary-bar { display: flex; align-items: center; gap: 32px; background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 28px 32px; margin-top: 40px; flex-wrap: wrap; }
+    .review-score { display: flex; align-items: center; gap: 10px; }
+    .review-score-num { font-size: 40px; font-weight: 800; color: var(--text-black); }
+    .review-stars { display: flex; gap: 2px; }
+    .review-stars svg { width: 16px; height: 16px; color: var(--text-dark); }
+    .review-summary-copy { font-size: 15px; color: var(--text-gray); }
+    .review-summary-copy strong { color: var(--text-black); }
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+    .chip { padding: 9px 16px; border: 1px solid var(--border-default); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text-gray); background: var(--bg-white); }
+    .chip.is-active { background: var(--text-black); color: #FFFFFF; border-color: var(--text-black); }
+    .review-photo-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 24px; }
+    .review-photo-grid .img-placeholder { aspect-ratio: 1/1; }
+    .review-list { margin-top: 32px; display: flex; flex-direction: column; gap: 0; }
+    .review-item { background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 24px; margin-bottom: 12px; display: grid; grid-template-columns: 80px 1fr; gap: 20px; }
+    .review-item .img-placeholder { aspect-ratio: 1/1; }
+    .review-item-meta { font-size: 13px; color: var(--text-light); margin: 6px 0; }
+    .review-item-text { font-size: 14px; color: var(--text-gray); line-height: 1.6; }
+
+    /* ==========================================
+       섹션 7: 함께 본 / 같은 결의 상품 — 가로 스크롤 4~6
+       ========================================== */
+    .related-section { padding: 80px 0 120px; background: var(--bg-white); }
+    .related-carousel { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 16px; margin-top: 40px; }
+    .related-card { min-width: 220px; flex-shrink: 0; scroll-snap-align: start; display: block; }
+    .related-card .img-placeholder { aspect-ratio: 1/1; }
+    .product-name { font-size: 15px; font-weight: 600; color: var(--text-black); margin-top: 12px; }
+    .product-price { font-size: 15px; font-weight: 700; color: var(--text-black); margin-top: 4px; }
+    .product-rating { display: flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 13px; color: var(--text-light); }
+    .product-rating svg { width: 14px; height: 14px; color: var(--text-dark); }
+
+    /* ==========================================
+       플로팅: 모바일 하단 sticky 구매 바 + 바텀시트
+       ========================================== */
+    .sticky-buy-bar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 1600; background: var(--bg-white); border-top: 1px solid var(--border-light); padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); gap: 8px; }
+    .sticky-buy-bar .btn { flex: 1; padding: 15px 0; font-size: 16px; }
+    .sticky-wish { flex: 0 0 52px !important; padding: 0 !important; }
+    .sticky-wish svg { width: 20px; height: 20px; }
+    /* 바텀시트 (색상·사이즈·수량 → 담기/구매) */
+    .buysheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1700; display: none; }
+    .buysheet-overlay.is-open { display: block; }
+    .buy-sheet { position: fixed; left: 0; right: 0; bottom: 0; background: var(--bg-white); border-radius: var(--radius-md) var(--radius-md) 0 0; z-index: 1800; transform: translateY(100%); transition: transform 0.25s ease; max-height: 80vh; overflow-y: auto; }
+    .buy-sheet.is-open { transform: translateY(0); }
+    .buy-sheet-handle { width: 40px; height: 4px; border-radius: 2px; background: var(--border-default); margin: 10px auto 0; }
+    .buy-sheet-body { padding: 16px 20px; }
+    .buy-sheet-qty-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-top: 1px solid var(--border-light); margin-top: 8px; }
+    .buy-sheet-total { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-top: 1px solid var(--border-light); font-size: 15px; font-weight: 700; color: var(--text-black); }
+    .buy-sheet-cta { display: flex; gap: 8px; padding: 4px 20px calc(16px + env(safe-area-inset-bottom)); }
+    .buy-sheet-cta .btn { flex: 1; padding: 15px 0; font-size: 16px; }
+
+    /* ========== 공통 푸터 ========== */
+    .site-footer { padding: 60px 0 32px; background: var(--bg-white); border-top: 1px solid var(--border-light); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--border-light); }
+    .footer-brand-name { font-size: 18px; font-weight: 800; color: var(--text-black); letter-spacing: 1px; margin-bottom: 12px; }
+    .footer-company-info { font-size: 13px; color: var(--text-light); line-height: 1.8; }
+    .footer-col-title { font-size: 14px; font-weight: 700; color: var(--text-black); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; width: 100%; text-align: left; }
+    .footer-col-title svg { display: none; width: 16px; height: 16px; color: var(--text-light); transition: transform 0.2s; }
+    .footer-col-links a { display: block; font-size: 14px; color: var(--text-light); padding: 4px 0; }
+    .footer-sns-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-gray); padding: 4px 0; }
+    .footer-sns-link svg { width: 18px; height: 18px; }
+    .footer-newsletter-note { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 24px; font-size: 13px; color: var(--text-muted); }
+    .footer-policy a { color: var(--text-gray); margin-left: 16px; }
+    .footer-policy a.privacy { font-weight: 700; color: var(--text-dark); }
+    .escrow-slot { display: inline-flex; align-items: center; justify-content: center; width: 120px; height: 36px; background: var(--bg-light); border: 1px dashed var(--border-default); border-radius: 4px; font-size: 11px; color: var(--text-light); }
+
+    /* ========== 플로팅 (카카오 + TOP) ========== */
+    .floating-stack { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 12px; z-index: 1500; }
+    .floating-btn { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); }
+    .floating-kakao { background: var(--text-black); }
+    .floating-kakao svg { width: 24px; height: 24px; color: #FFFFFF; }
+    .floating-top { background: var(--bg-white); border: 1px solid var(--border-default); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .floating-top.is-visible { opacity: 1; pointer-events: auto; }
+    .floating-top svg { width: 22px; height: 22px; color: var(--text-dark); }
+
+    /* ========== 반응형 ========== */
+    @media (max-width: 768px) {
+      .section-title { font-size: 26px; }
+      .header-inner { height: 56px; }
+      .site-header.is-compact .header-inner { height: 56px; }
+      .gnb { display: none; }
+      .hamburger-btn { display: inline-flex; }
+      .header-logo { font-size: 18px; }
+
+      /* 섹션 1: 갤러리 풀폭 상단 + 정보 하단 */
+      .pdp-top { padding: 0 0 64px; }
+      .pdp-top-inner { grid-template-columns: 1fr; gap: 24px; }
+      .pdp-top .container { padding: 0; }
+      .pdp-gallery { position: static; }
+      .pdp-gallery-main .img-placeholder { border-radius: 0; }
+      .pdp-thumbs { padding: 0 16px; }
+      .pdp-info { padding: 0 16px; }
+      .pdp-name { font-size: 21px; }
+      .pdp-price { font-size: 24px; }
+      /* PC CTA는 숨기고 모바일 sticky 바 사용 */
+      .pdp-cta-row { display: none; }
+      .sticky-buy-bar { display: flex; }
+
+      .selling-section, .detail-section, .care-section, .sizeguide-section, .pdp-review-section { padding: 64px 0; }
+      .related-section { padding: 64px 0 140px; }
+      /* 셀링 포인트: 모바일 세로 스택 */
+      .selling-grid { grid-template-columns: 1fr; }
+      .review-photo-grid { grid-template-columns: repeat(3, 1fr); }
+      .review-item { grid-template-columns: 64px 1fr; padding: 16px; }
+      .related-card { min-width: 60%; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 0; }
+      .footer-brand-col { padding-bottom: 24px; }
+      .footer-col { border-top: 1px solid var(--border-light); }
+      .footer-col-title { margin-bottom: 0; padding: 16px 0; cursor: pointer; }
+      .footer-col-title svg { display: inline-block; }
+      .footer-col.is-open .footer-col-title svg { transform: rotate(180deg); }
+      .footer-col-links { display: none; padding-bottom: 16px; }
+      .footer-col.is-open .footer-col-links { display: block; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      /* 플로팅: sticky 구매 바 위로 올림 */
+      .floating-stack { right: 16px; bottom: 92px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== 공통 헤더 (비네비 페이지 — GNB·푸터 메뉴에 상세 링크 없음) ========== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="header-logo">MONGJELO</a>
+        <nav class="gnb">
+          <div class="gnb-item">
+            <a href="mongjelo.html">몽젤로 <i data-lucide="chevron-down"></i></a>
+            <div class="gnb-dropdown">
+              <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+              <a href="mongjelo.html">아우터</a>
+              <a href="mongjelo.html">상의</a>
+              <a href="mongjelo.html">하의</a>
+              <a href="mongjelo.html">세트</a>
+              <a href="mongjelo.html">기능성·액티브</a>
+              <a href="mongjelo.html">소품</a>
+            </div>
+          </div>
+          <div class="gnb-item">
+            <a href="zelobebe.html">젤로베베 <i data-lucide="chevron-down"></i></a>
+            <div class="gnb-dropdown">
+              <a href="zelobebe.html">아우터</a>
+              <a href="zelobebe.html">상의</a>
+              <a href="zelobebe.html">하의</a>
+              <a href="zelobebe.html">세트·한벌</a>
+              <a href="zelobebe.html">이너·베이직</a>
+              <a href="zelobebe.html">소품(모자·가방)</a>
+              <a href="zelobebe.html">오가닉</a>
+            </div>
+          </div>
+          <div class="gnb-item"><a href="story.html">브랜드 스토리</a></div>
+          <div class="gnb-item"><a href="lookbook.html">룩북</a></div>
+          <div class="gnb-item"><a href="review.html">리뷰</a></div>
+          <div class="gnb-item"><a href="support.html">고객센터</a></div>
+        </nav>
+        <div class="header-utils">
+          <a href="#" class="util-icon" aria-label="장바구니"><i data-lucide="shopping-bag"></i><span class="cart-badge">0</span></a>
+          <a href="#" class="util-icon" aria-label="마이페이지"><i data-lucide="user"></i></a>
+          <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기"><i data-lucide="menu"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 모바일 드로어 -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <span class="header-logo">MONGJELO</span>
+      <button class="drawer-close" id="drawerClose" aria-label="메뉴 닫기"><i data-lucide="x"></i></button>
+    </div>
+    <ul class="drawer-menu">
+      <li class="drawer-acc">
+        <button class="drawer-acc-btn">몽젤로 <i data-lucide="chevron-down"></i></button>
+        <div class="drawer-sub">
+          <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+          <a href="mongjelo.html">아우터</a><a href="mongjelo.html">상의</a><a href="mongjelo.html">하의</a>
+          <a href="mongjelo.html">세트</a><a href="mongjelo.html">기능성·액티브</a><a href="mongjelo.html">소품</a>
+        </div>
+      </li>
+      <li class="drawer-acc">
+        <button class="drawer-acc-btn">젤로베베 <i data-lucide="chevron-down"></i></button>
+        <div class="drawer-sub">
+          <a href="zelobebe.html">아우터</a><a href="zelobebe.html">상의</a><a href="zelobebe.html">하의</a>
+          <a href="zelobebe.html">세트·한벌</a><a href="zelobebe.html">이너·베이직</a>
+          <a href="zelobebe.html">소품(모자·가방)</a><a href="zelobebe.html">오가닉</a>
+        </div>
+      </li>
+      <li><a href="story.html">브랜드 스토리</a></li>
+      <li><a href="lookbook.html">룩북</a></li>
+      <li><a href="review.html">리뷰</a></li>
+      <li><a href="support.html">고객센터</a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <!-- ==========================================
+         섹션 1: 상품 갤러리 + 구매 영역 (Above the fold)
+         PC 좌우 분할 (좌 갤러리 sticky / 우 구매 정보)
+         모바일: 갤러리 풀폭 상단 + 정보 하단
+         ⛔ 가격 미표시·로그인 후 가격 금지 (KB 안티패턴) — 가격 상시 노출
+         ========================================== -->
+    <section class="pdp-top">
+      <div class="container">
+        <div class="pdp-top-inner">
+          <!-- 좌: 갤러리 (메인 + 썸네일 다중) -->
+          <div class="pdp-gallery">
+            <div class="pdp-gallery-main">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+            </div>
+            <div class="pdp-thumbs">
+              <div class="pdp-thumb is-active"><i data-lucide="image"></i></div>
+              <div class="pdp-thumb"><i data-lucide="image"></i></div>
+              <div class="pdp-thumb"><i data-lucide="image"></i></div>
+              <div class="pdp-thumb"><i data-lucide="image"></i></div>
+              <div class="pdp-thumb"><i data-lucide="image"></i></div>
+            </div>
+          </div>
+
+          <!-- 우: 구매 정보 -->
+          <div class="pdp-info">
+            <!-- [몽젤로형] 브랜드 = MONGJELO / [젤로베베형] 브랜드 = ZELOBEBE -->
+            <p class="pdp-brand">MONGJELO</p>
+            <h1 class="pdp-name">[상품명]</h1>
+            <!-- 별점+리뷰수: 클릭 시 리뷰 탭 앵커 -->
+            <a href="#pdpReview" class="pdp-rating-row">
+              <i data-lucide="star"></i> 0.0 <span class="review-anchor">리뷰 000개</span>
+            </a>
+            <div class="pdp-price-block">
+              <p class="pdp-price">00,000원</p>
+              <!-- 쿠폰가 병기 -->
+              <p class="pdp-coupon-price"><span class="coupon-tag">쿠폰</span> 쿠폰 적용가 <strong>00,000원</strong></p>
+            </div>
+
+            <!-- 옵션: 색상 · 사이즈 -->
+            <div class="pdp-option-group">
+              <p class="pdp-option-label">색상</p>
+              <button class="pdp-select">색상을 선택해주세요 <i data-lucide="chevron-down"></i></button>
+            </div>
+            <div class="pdp-option-group">
+              <p class="pdp-option-label">사이즈</p>
+              <button class="pdp-select">사이즈를 선택해주세요 <i data-lucide="chevron-down"></i></button>
+            </div>
+            <div class="pdp-option-group">
+              <p class="pdp-option-label">수량</p>
+              <div class="qty-stepper">
+                <button class="qty-btn"><i data-lucide="minus"></i></button>
+                <span class="qty-value">1</span>
+                <button class="qty-btn"><i data-lucide="plus"></i></button>
+              </div>
+            </div>
+
+            <!-- CTA: 장바구니 / 바로구매 / 찜 (PC) -->
+            <div class="pdp-cta-row">
+              <button class="btn btn-secondary">장바구니</button>
+              <button class="btn btn-primary">바로 구매</button>
+              <button class="btn btn-secondary pdp-wish" aria-label="찜"><i data-lucide="heart"></i></button>
+            </div>
+            <p class="microcopy">오후 2시 이전 주문 시 내일 도착 [플레이스홀더 — 배송정책 확정]</p>
+
+            <!-- 적립·배송 안내 -->
+            <div class="pdp-benefit">
+              <div class="pdp-benefit-row"><i data-lucide="coins"></i> 구매 시 0,000원 적립 [플레이스홀더]</div>
+              <div class="pdp-benefit-row"><i data-lucide="truck"></i> 00,000원 이상 무료배송 [플레이스홀더]</div>
+              <div class="pdp-benefit-row"><i data-lucide="refresh-ccw"></i> 사이즈 교환 안내 [플레이스홀더 — 교환정책 확정]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 2: 핵심 셀링 포인트 (3컷) — 가로 3컬럼 아이콘+카피
+         [몽젤로형] 핏 / 활동성 / 관리 편의 — "스펙 → 생활 장면" 치환
+         [젤로베베형] 소재 안전 / 촉감 / 세탁 내구 — "면 100% → 맨살에 닿는 느낌"
+         ========================================== -->
+    <section class="selling-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">POINT</p>
+          <h2 class="section-title">핵심 셀링 포인트</h2>
+        </div>
+        <div class="selling-grid">
+          <!-- [몽젤로형] 포인트 1: 핏 / [젤로베베형] 포인트 1: 소재 안전 -->
+          <div class="selling-card">
+            <div class="icon-box"><i data-lucide="shirt"></i></div>
+            <p class="selling-card-title">포인트 1 [플레이스홀더]</p>
+            <p class="selling-card-desc">몽젤로형: 핏 — 생활 장면 카피<br>젤로베베형: 소재 안전 카피</p>
+          </div>
+          <!-- [몽젤로형] 포인트 2: 활동성 / [젤로베베형] 포인트 2: 촉감 -->
+          <div class="selling-card">
+            <div class="icon-box"><i data-lucide="zap"></i></div>
+            <p class="selling-card-title">포인트 2 [플레이스홀더]</p>
+            <p class="selling-card-desc">몽젤로형: 활동성 — 생활 장면 카피<br>젤로베베형: 맨살에 닿는 촉감 카피</p>
+          </div>
+          <!-- [몽젤로형] 포인트 3: 관리 편의 / [젤로베베형] 포인트 3: 세탁 내구 -->
+          <div class="selling-card">
+            <div class="icon-box"><i data-lucide="washing-machine"></i></div>
+            <p class="selling-card-title">포인트 3 [플레이스홀더]</p>
+            <p class="selling-card-desc">몽젤로형: 관리 편의 카피<br>젤로베베형: 세탁 내구 카피</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 3: 디테일 이미지 (롱 스크롤)
+         풀폭 이미지 세로 나열 + 2~3 구간마다 GIF·숏폼 징검다리 / Lazy Load
+         ========================================== -->
+    <section class="detail-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">DETAIL</p>
+          <h2 class="section-title">디테일</h2>
+        </div>
+        <div class="detail-stack">
+          <div class="img-placeholder detail-img"><i data-lucide="image"></i></div>
+          <div class="img-placeholder detail-img"><i data-lucide="image"></i></div>
+          <!-- GIF/숏폼 징검다리 1 (늘어남·촉감 등) -->
+          <div class="detail-video"><i data-lucide="play-circle"></i><span>GIF / 숏폼 — 늘어남·촉감 [플레이스홀더]</span></div>
+          <div class="img-placeholder detail-img"><i data-lucide="image"></i></div>
+          <div class="img-placeholder detail-img"><i data-lucide="image"></i></div>
+          <!-- GIF/숏폼 징검다리 2 -->
+          <div class="detail-video"><i data-lucide="play-circle"></i><span>GIF / 숏폼 [플레이스홀더]</span></div>
+          <div class="img-placeholder detail-img"><i data-lucide="image"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 4: 소재·케어 정보 — 스캐너블 고밀도 표
+         사이즈 실측표 = 가로 스크롤
+         ========================================== -->
+    <section class="care-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">INFO</p>
+          <h2 class="section-title">소재 · 케어 정보</h2>
+        </div>
+        <div class="care-tables">
+          <div>
+            <p class="care-table-title">혼용률 / 세탁법 / 주의사항</p>
+            <table class="wf-table">
+              <tr><th>혼용률</th><td>면 00% · [소재명] 00% [플레이스홀더]</td></tr>
+              <tr><th>세탁법</th><td>30℃ 이하 단독 세탁 권장 [플레이스홀더]</td></tr>
+              <tr><th>주의사항</th><td>표백·건조기 사용 주의 [플레이스홀더]</td></tr>
+            </table>
+            <!-- [젤로베베형] 오가닉/친환경 인증 표식 (해당 상품만 노출) -->
+            <div class="cert-slot">
+              <div class="cert-badge">오가닉 인증<br>[플레이스홀더]</div>
+              <div class="cert-badge">친환경 인증<br>[플레이스홀더]</div>
+            </div>
+          </div>
+          <div>
+            <p class="care-table-title">사이즈 실측표</p>
+            <div class="table-scroll">
+              <table class="wf-table">
+                <tr><th>사이즈</th><th>총장</th><th>가슴단면</th><th>어깨너비</th><th>소매길이</th><th>밑단</th></tr>
+                <tr><td>S</td><td>00</td><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+                <tr><td>M</td><td>00</td><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+                <tr><td>L</td><td>00</td><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 5: 사이즈 가이드 (불안 해소)
+         추천 사이즈 표 + 리뷰 필터 연동 버튼
+         ========================================== -->
+    <section class="sizeguide-section">
+      <div class="container">
+        <div class="sizeguide-inner">
+          <p class="section-label">SIZE GUIDE</p>
+          <h2 class="section-title">사이즈가 고민되시나요?</h2>
+          <table class="wf-table" style="margin-top:24px;">
+            <tr><th>키 / 개월수</th><th>추천 사이즈</th></tr>
+            <tr><td>000cm ~ 000cm / 00개월 [플레이스홀더]</td><td>S</td></tr>
+            <tr><td>000cm ~ 000cm [플레이스홀더]</td><td>M</td></tr>
+            <tr><td>000cm ~ 000cm [플레이스홀더]</td><td>L</td></tr>
+          </table>
+          <div class="sizeguide-cta">
+            <a href="#pdpReview" class="btn btn-secondary"><i data-lucide="search"></i> 내 아이 또래 리뷰 보기</a>
+          </div>
+          <!-- 무위험 카피 -->
+          <p class="microcopy">혹시 안 맞아도 편하게 교환하세요 [플레이스홀더 — 교환정책 확정]</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 6: 포토 리뷰 — 요약 바 + 포토 그리드 + 필터 칩 + 상세 리스트
+         ========================================== -->
+    <section class="pdp-review-section" id="pdpReview">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">REVIEW</p>
+          <h2 class="section-title">포토 리뷰</h2>
+        </div>
+
+        <!-- 별점 요약 바 + 데이터 카피 -->
+        <div class="review-summary-bar">
+          <div class="review-score">
+            <span class="review-score-num">0.0</span>
+            <div class="review-stars">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+          </div>
+          <p class="review-summary-copy">이미 <strong>OO명</strong>의 아이가 입었어요 [자동적용]</p>
+        </div>
+
+        <!-- 필터 칩 -->
+        <div class="filter-chips">
+          <button class="chip is-active">전체</button>
+          <button class="chip">포토리뷰만</button>
+          <button class="chip">내 체형/또래 비슷한</button>
+          <button class="chip">별점 낮은순</button>
+        </div>
+
+        <!-- 포토 그리드 (포토리뷰 우선) -->
+        <div class="review-photo-grid">
+          <div class="img-placeholder"><i data-lucide="image"></i></div>
+          <div class="img-placeholder"><i data-lucide="image"></i></div>
+          <div class="img-placeholder"><i data-lucide="image"></i></div>
+          <div class="img-placeholder"><i data-lucide="image"></i></div>
+          <div class="img-placeholder"><i data-lucide="image"></i></div>
+          <div class="img-placeholder"><i data-lucide="image"></i></div>
+        </div>
+
+        <!-- 상세 리뷰 리스트 -->
+        <div class="review-list">
+          <div class="review-item">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <div>
+              <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+              <p class="review-item-meta">00개월 / 키 000cm / 사이즈 M 구매 [플레이스홀더]</p>
+              <p class="review-item-text">리뷰 본문 [플레이스홀더]</p>
+            </div>
+          </div>
+          <div class="review-item">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <div>
+              <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+              <p class="review-item-meta">00개월 / 키 000cm / 사이즈 S 구매 [플레이스홀더]</p>
+              <p class="review-item-text">리뷰 본문 [플레이스홀더]</p>
+            </div>
+          </div>
+          <div class="review-item">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <div>
+              <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+              <p class="review-item-meta">00개월 / 키 000cm / 사이즈 L 구매 [플레이스홀더]</p>
+              <p class="review-item-text">리뷰 본문 [플레이스홀더]</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 7: 함께 본 / 같은 결의 상품 — 가로 스크롤 카드 4~6
+         (젤로베베 상세 → 몽젤로 브릿지 노출 가능)
+         ========================================== -->
+    <section class="related-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">RELATED</p>
+          <h2 class="section-title">함께 본 / 같은 결의 상품</h2>
+        </div>
+        <div class="related-carousel">
+          <a href="product.html" class="related-card">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <p class="product-name">[연관 상품 1]</p>
+            <p class="product-price">00,000원</p>
+            <p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p>
+          </a>
+          <a href="product.html" class="related-card">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <p class="product-name">[연관 상품 2]</p>
+            <p class="product-price">00,000원</p>
+            <p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p>
+          </a>
+          <a href="product.html" class="related-card">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <p class="product-name">[연관 상품 3]</p>
+            <p class="product-price">00,000원</p>
+            <p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p>
+          </a>
+          <a href="product.html" class="related-card">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <p class="product-name">[연관 상품 4]</p>
+            <p class="product-price">00,000원</p>
+            <p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p>
+          </a>
+          <a href="product.html" class="related-card">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <p class="product-name">[연관 상품 5]</p>
+            <p class="product-price">00,000원</p>
+            <p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p>
+          </a>
+          <a href="product.html" class="related-card">
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <p class="product-name">[연관 상품 6]</p>
+            <p class="product-price">00,000원</p>
+            <p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       플로팅: 모바일 하단 sticky 구매 바 (엄지 도달 영역)
+       탭 시 바텀시트 모달 (색상·사이즈·수량 → 담기/구매)
+       ========================================== -->
+  <div class="sticky-buy-bar">
+    <button class="btn btn-secondary sticky-wish" aria-label="찜"><i data-lucide="heart"></i></button>
+    <button class="btn btn-primary" id="openBuySheet">구매하기</button>
+  </div>
+
+  <div class="buysheet-overlay" id="buySheetOverlay"></div>
+  <div class="buy-sheet" id="buySheet">
+    <div class="buy-sheet-handle"></div>
+    <div class="buy-sheet-body">
+      <div class="pdp-option-group">
+        <p class="pdp-option-label">색상</p>
+        <button class="pdp-select">색상을 선택해주세요 <i data-lucide="chevron-down"></i></button>
+      </div>
+      <div class="pdp-option-group">
+        <p class="pdp-option-label">사이즈</p>
+        <button class="pdp-select">사이즈를 선택해주세요 <i data-lucide="chevron-down"></i></button>
+      </div>
+      <div class="buy-sheet-qty-row">
+        <span class="pdp-option-label" style="margin:0;">수량</span>
+        <div class="qty-stepper">
+          <button class="qty-btn"><i data-lucide="minus"></i></button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn"><i data-lucide="plus"></i></button>
+        </div>
+      </div>
+      <div class="buy-sheet-total">
+        <span>총 상품 금액</span>
+        <span>00,000원</span>
+      </div>
+    </div>
+    <div class="buy-sheet-cta">
+      <button class="btn btn-secondary">장바구니 담기</button>
+      <button class="btn btn-primary">바로 구매</button>
+    </div>
+  </div>
+  <!-- 장바구니 이탈 방지: 이탈 감지 시 리마인드 토스트 [자동적용 — 구현 슬롯] -->
+
+  <!-- ========== 공통 푸터 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <p class="footer-brand-name">MONGJELO</p>
+          <p class="footer-company-info">
+            상호 [플레이스홀더] · 대표자 [플레이스홀더]<br>
+            사업자등록번호 [플레이스홀더]<br>
+            통신판매업신고 [플레이스홀더]<br>
+            주소 [플레이스홀더]<br>
+            전화 [플레이스홀더] · 이메일 [플레이스홀더]
+          </p>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">쇼핑 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="mongjelo.html">몽젤로</a>
+            <a href="zelobebe.html">젤로베베</a>
+            <a href="story.html">브랜드 스토리</a>
+            <a href="lookbook.html">룩북</a>
+            <a href="review.html">리뷰</a>
+            <a href="support.html">고객센터</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">고객지원 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="support.html">사이즈 가이드</a>
+            <a href="support.html">배송/교환/반품</a>
+            <a href="support.html">자주 묻는 질문</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">SNS·뉴스레터 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="#" class="footer-sns-link" target="_blank" rel="noopener"><i data-lucide="instagram"></i> 인스타그램</a>
+            <p class="footer-newsletter-note">브랜딩 핵심 채널</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© MONGJELO. All rights reserved.</span>
+        <span class="escrow-slot">에스크로 마크 [플레이스홀더]</span>
+        <span class="footer-policy">
+          <a href="#" class="privacy">개인정보처리방침</a>
+          <a href="#">이용약관</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== 플로팅: 카카오 문의 + TOP ========== -->
+  <div class="floating-stack">
+    <a href="#" class="floating-btn floating-kakao" aria-label="카카오톡 문의"><i data-lucide="message-circle"></i></a>
+    <button class="floating-btn floating-top" id="topBtn" aria-label="맨 위로"><i data-lucide="arrow-up"></i></button>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    /* 모바일 드로어 */
+    (function () {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      document.getElementById('hamburgerBtn').addEventListener('click', () => { drawer.classList.add('is-open'); overlay.classList.add('is-open'); });
+      const close = () => { drawer.classList.remove('is-open'); overlay.classList.remove('is-open'); };
+      document.getElementById('drawerClose').addEventListener('click', close);
+      overlay.addEventListener('click', close);
+      document.querySelectorAll('.drawer-acc-btn').forEach(btn => {
+        btn.addEventListener('click', () => btn.closest('.drawer-acc').classList.toggle('is-open'));
+      });
+    })();
+
+    /* 헤더 스크롤 동작 — 상세 모바일은 sticky 구매 바와 충돌 없도록 헤더만 숨김 */
+    (function () {
+      const header = document.getElementById('siteHeader');
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        header.classList.toggle('is-compact', y > 80);
+        if (window.innerWidth <= 768) {
+          if (y > lastY && y > 120) header.classList.add('is-hidden');
+          else header.classList.remove('is-hidden');
+        } else { header.classList.remove('is-hidden'); }
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    /* 플로팅 TOP */
+    (function () {
+      const topBtn = document.getElementById('topBtn');
+      window.addEventListener('scroll', () => topBtn.classList.toggle('is-visible', window.scrollY > 400), { passive: true });
+      topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+
+    /* 푸터 아코디언 (모바일) */
+    document.querySelectorAll('.footer-col-title').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 768) btn.closest('.footer-col').classList.toggle('is-open');
+      });
+    });
+
+    /* 갤러리 썸네일 활성 토글 */
+    document.querySelectorAll('.pdp-thumb').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.pdp-thumb').forEach(x => x.classList.remove('is-active'));
+        t.classList.add('is-active');
+      });
+    });
+
+    /* 수량 스테퍼 (와이어프레임 데모) */
+    document.querySelectorAll('.qty-stepper').forEach(stepper => {
+      const value = stepper.querySelector('.qty-value');
+      const btns = stepper.querySelectorAll('.qty-btn');
+      btns[0].addEventListener('click', () => { value.textContent = Math.max(1, parseInt(value.textContent) - 1); });
+      btns[1].addEventListener('click', () => { value.textContent = parseInt(value.textContent) + 1; });
+    });
+
+    /* 리뷰 필터 칩 토글 */
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+      });
+    });
+
+    /* 모바일 구매 바텀시트 */
+    (function () {
+      const sheet = document.getElementById('buySheet');
+      const overlay = document.getElementById('buySheetOverlay');
+      const open = () => { sheet.classList.add('is-open'); overlay.classList.add('is-open'); };
+      const close = () => { sheet.classList.remove('is-open'); overlay.classList.remove('is-open'); };
+      document.getElementById('openBuySheet').addEventListener('click', open);
+      overlay.addEventListener('click', close);
+    })();
+  </script>
+</body>
+</html>

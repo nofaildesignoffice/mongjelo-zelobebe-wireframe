@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>와이어프레임 코드 레퍼런스</title>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ==========================================
+       와이어프레임 CSS 변수 (이것만 사용할 것)
+       ========================================== */
+    :root {
+      --text-black: #1A1A1A;
+      --text-dark: #333333;
+      --text-gray: #666666;
+      --text-light: #999999;
+      --text-muted: #BCBCBC;
+      --bg-white: #FFFFFF;
+      --bg-light: #F5F5F5;
+      --bg-dark: #2D2D2D;
+      --bg-black: #1A1A1A;
+      --border-light: #E0E0E0;
+      --border-default: #D0D0D0;
+      --placeholder-bg: #E0E0E0;
+      --placeholder-icon: #BCBCBC;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* ==========================================
+       리셋 & 기본
+       ========================================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-gray);
+      line-height: 1.6;
+      background: var(--bg-white);
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; font-family: inherit; background: none; }
+
+    /* ==========================================
+       레이아웃
+       ========================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================
+       공통 컴포넌트
+       ========================================== */
+
+    /* 버튼 - 단순 블랙/화이트만 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary {
+      background: var(--text-black);
+      color: #FFFFFF;
+      border: 1px solid var(--text-black);
+    }
+    .btn-secondary {
+      background: var(--bg-white);
+      color: var(--text-black);
+      border: 1px solid var(--border-default);
+    }
+
+    /* 섹션 공통 텍스트 */
+    .section-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-black);
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-gray);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    /* 이미지 플레이스홀더 - 단순 회색 박스 */
+    .img-placeholder {
+      background: var(--placeholder-bg);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .img-placeholder svg {
+      color: var(--placeholder-icon);
+      width: 48px;
+      height: 48px;
+    }
+
+    /* 아이콘 박스 */
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-box svg {
+      width: 24px;
+      height: 24px;
+      color: var(--text-dark);
+    }
+
+    /* 구분선 */
+    .divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 0;
+    }
+
+    /* ==========================================
+       섹션 간 구분 라벨 (레퍼런스 전용, 실제 와이어프레임에서는 삭제)
+       ========================================== */
+    .ref-label {
+      background: #FF6B6B;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    /* ==========================================
+       NAV - 밝은 배경 (Nav 03 스타일)
+       ========================================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-black);
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+    .nav-links a {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* NAV - 다크 배경 (Nav 12 스타일) */
+    .nav-dark {
+      background: var(--bg-dark);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-dark .nav-logo { color: #FFFFFF; }
+    .nav-dark .nav-links a { color: rgba(255,255,255,0.7); }
+    .nav-dark .btn-secondary {
+      color: #FFFFFF;
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* ==========================================
+       HERO - 좌우 분할 (Hero 01 스타일)
+       ========================================== */
+    .hero-split {
+      padding: 120px 0 80px;
+      background: var(--bg-white);
+    }
+    .hero-split-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-split .section-title { font-size: 42px; }
+    .hero-split .hero-buttons { display: flex; gap: 12px; margin-top: 32px; }
+
+    /* HERO - 중앙 정렬 (Hero 05 스타일) */
+    .hero-center {
+      padding: 120px 0 80px;
+      background: var(--bg-white);
+      text-align: center;
+    }
+    .hero-center .section-title {
+      font-size: 42px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-center .section-desc { margin-left: auto; margin-right: auto; }
+    .hero-center .hero-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 32px; }
+    .hero-center .hero-image { margin-top: 48px; }
+
+    /* HERO - 풀스크린 다크 (Hero 07 스타일) */
+    .hero-dark {
+      padding: 160px 0;
+      background: var(--bg-dark);
+      text-align: center;
+    }
+    .hero-dark .section-title { color: #FFFFFF; font-size: 48px; max-width: 700px; margin: 0 auto 16px; }
+    .hero-dark .section-desc { color: rgba(255,255,255,0.6); margin: 0 auto; }
+    .hero-dark .hero-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 32px; }
+    .hero-dark .btn-primary { background: #FFFFFF; color: var(--text-black); border-color: #FFFFFF; }
+    .hero-dark .btn-secondary { color: #FFFFFF; border-color: rgba(255,255,255,0.3); }
+
+    /* ==========================================
+       CENTER CONTENT - 2열 카드 (Center 01 스타일)
+       ========================================== */
+    .center-2col {
+      padding: 80px 0;
+    }
+    .center-2col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .content-card {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .content-card-body {
+      padding: 24px;
+    }
+    .content-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 8px;
+    }
+    .content-card-desc {
+      font-size: 15px;
+      color: var(--text-gray);
+      line-height: 1.6;
+    }
+
+    /* CENTER CONTENT - 3x2 카드 그리드 (Center 04 스타일) */
+    .center-grid {
+      padding: 80px 0;
+    }
+    .cards-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    /* CENTER CONTENT - 로고 그리드 (Center 09 스타일) */
+    .logo-grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .logo-item {
+      width: 120px;
+      height: 48px;
+      background: var(--bg-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-item span {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    /* ==========================================
+       LEFT CONTENT (Left 01 스타일)
+       ========================================== */
+    .left-content {
+      padding: 80px 0;
+    }
+    .left-content-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* RIGHT CONTENT (Right 01 스타일) */
+    .right-content {
+      padding: 80px 0;
+    }
+    .right-content-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* LEFT CONTENT - 프로세스 (Left 04 스타일) */
+    .process-section {
+      padding: 80px 0;
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .process-step {
+      text-align: center;
+    }
+    .step-number {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .step-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .step-icon-wrap svg {
+      width: 28px;
+      height: 28px;
+      color: var(--text-dark);
+    }
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    /* ==========================================
+       FEATURE - 3x2 아이콘 카드 (Feature 01 스타일)
+       ========================================== */
+    .feature-section {
+      padding: 80px 0;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .feature-card {
+      padding: 32px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+    }
+    .feature-card .icon-box { margin-bottom: 20px; }
+    .feature-card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 8px;
+    }
+    .feature-card-desc {
+      font-size: 15px;
+      color: var(--text-gray);
+      line-height: 1.6;
+    }
+
+    /* FEATURE - 좌측 이미지 + 우측 리스트 (Feature 06 스타일) */
+    .feature-list-section {
+      padding: 80px 0;
+    }
+    .feature-list-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .feature-list-item {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .feature-list-item:last-child { border-bottom: none; }
+    .feature-list-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 4px;
+    }
+    .feature-list-desc {
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    /* ==========================================
+       CLIENTS / TESTIMONIALS - 인용문 (Clients 03 스타일)
+       ========================================== */
+    .testimonial-section {
+      padding: 80px 0;
+    }
+    .testimonial-card {
+      max-width: 640px;
+      margin: 48px auto 0;
+      text-align: center;
+    }
+    .testimonial-quote {
+      font-size: 18px;
+      color: var(--text-dark);
+      line-height: 1.8;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+    .testimonial-author {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-black);
+    }
+    .testimonial-role {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* CLIENTS - 2열 카드 (Clients 04 스타일) */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .testimonial-grid-card {
+      padding: 32px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+    }
+    .tg-stars { margin-bottom: 16px; color: var(--text-muted); }
+    .tg-stars svg { width: 16px; height: 16px; }
+    .tg-text {
+      font-size: 15px;
+      color: var(--text-dark);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .tg-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .tg-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--placeholder-bg);
+    }
+    .tg-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-black);
+    }
+    .tg-role {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* ==========================================
+       FAQ - 아코디언 (FAQ 01 스타일)
+       ========================================== */
+    .faq-section {
+      padding: 80px 0;
+    }
+    .faq-list {
+      max-width: 720px;
+      margin: 48px auto 0;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-light);
+    }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-black);
+      text-align: left;
+    }
+    .faq-question svg { width: 20px; height: 20px; color: var(--text-light); flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.is-open .faq-question svg { transform: rotate(180deg); }
+    .faq-answer {
+      display: none;
+      padding: 0 0 20px;
+      font-size: 15px;
+      color: var(--text-gray);
+      line-height: 1.7;
+    }
+    .faq-item.is-open .faq-answer { display: block; }
+
+    /* FAQ - 좌우 분할 (FAQ 03 스타일) */
+    .faq-split {
+      padding: 80px 0;
+    }
+    .faq-split-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* ==========================================
+       CTA - 밝은 배경 (CTA 01 스타일)
+       ========================================== */
+    .cta-light {
+      padding: 80px 0;
+      text-align: center;
+    }
+    .cta-light .section-title { max-width: 500px; margin: 0 auto 16px; }
+    .cta-light .section-desc { margin: 0 auto 32px; }
+
+    /* CTA - 다크 배경 (CTA 03 스타일) */
+    .cta-dark {
+      padding: 80px 0;
+      background: var(--bg-dark);
+    }
+    .cta-dark-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .cta-dark .section-title { color: #FFFFFF; }
+    .cta-dark .section-desc { color: rgba(255,255,255,0.6); }
+    .cta-dark .btn-primary { background: #FFFFFF; color: var(--text-black); border-color: #FFFFFF; }
+
+    /* ==========================================
+       FOOTER - 밝은 배경 (Footer 01 스타일)
+       ========================================== */
+    .footer-light {
+      padding: 60px 0 32px;
+      background: var(--bg-white);
+      border-top: 1px solid var(--border-light);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .footer-brand-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 12px;
+    }
+    .footer-brand-desc {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .footer-col-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 14px;
+      color: var(--text-light);
+      padding: 4px 0;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* FOOTER - 다크 배경 (Footer 02 스타일) */
+    .footer-dark {
+      padding: 60px 0 32px;
+      background: var(--bg-dark);
+    }
+    .footer-dark .footer-grid { border-bottom-color: rgba(255,255,255,0.1); }
+    .footer-dark .footer-brand-name { color: #FFFFFF; }
+    .footer-dark .footer-brand-desc { color: rgba(255,255,255,0.5); }
+    .footer-dark .footer-col-title { color: rgba(255,255,255,0.8); }
+    .footer-dark .footer-col a { color: rgba(255,255,255,0.4); }
+    .footer-dark .footer-bottom { color: rgba(255,255,255,0.3); }
+
+    /* ==========================================
+       반응형
+       ========================================== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .section-title { font-size: 28px; }
+      .hero-split-inner,
+      .center-2col-grid,
+      .left-content-inner,
+      .right-content-inner,
+      .feature-list-inner,
+      .cta-dark-inner,
+      .faq-split-inner { grid-template-columns: 1fr; gap: 32px; }
+      .cards-3col,
+      .feature-grid,
+      .process-steps { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero-split .section-title,
+      .hero-center .section-title,
+      .hero-dark .section-title { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================== -->
+  <div class="ref-label">▼ NAV 밝은 배경 (Nav 03)</div>
+  <!-- ======================== -->
+  <header class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <span class="nav-logo">Brand Logo</span>
+        <nav class="nav-links">
+          <a href="#">메뉴1</a>
+          <a href="#">메뉴2</a>
+          <a href="#">메뉴3</a>
+          <a href="#">메뉴4</a>
+        </nav>
+        <div class="nav-actions">
+          <a href="#" class="btn btn-primary btn-sm" style="padding:10px 20px; font-size:14px;">문의하기</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ HERO 좌우 분할 (Hero 01)</div>
+    <!-- ======================== -->
+    <section class="hero-split">
+      <div class="container">
+        <div class="hero-split-inner">
+          <div>
+            <p class="section-label">라벨 텍스트</p>
+            <h1 class="section-title" style="font-size:42px;">메인 타이틀을<br>여기에 작성합니다</h1>
+            <p class="section-desc">서브 설명 텍스트를 여기에 작성합니다. 두 줄 정도가 적당합니다.</p>
+            <div class="hero-buttons">
+              <a href="#" class="btn btn-primary">Primary 버튼</a>
+              <a href="#" class="btn btn-secondary">Secondary 버튼</a>
+            </div>
+          </div>
+          <div class="img-placeholder" style="aspect-ratio:4/3;">
+            <i data-lucide="image"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ HERO 중앙 정렬 (Hero 05)</div>
+    <!-- ======================== -->
+    <section class="hero-center">
+      <div class="container">
+        <p class="section-label">라벨 텍스트</p>
+        <h1 class="section-title" style="font-size:42px;">중앙 정렬 타이틀을<br>여기에 작성합니다</h1>
+        <p class="section-desc mx-auto">서브 설명 텍스트를 여기에 작성합니다. 두 줄 정도가 적당합니다.</p>
+        <div class="hero-buttons">
+          <a href="#" class="btn btn-primary">Primary 버튼</a>
+          <a href="#" class="btn btn-secondary">Secondary 버튼</a>
+        </div>
+        <div class="hero-image img-placeholder" style="aspect-ratio:16/9; max-width:960px; margin:48px auto 0;">
+          <i data-lucide="image"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ HERO 다크 풀스크린 (Hero 07)</div>
+    <!-- ======================== -->
+    <section class="hero-dark">
+      <div class="container">
+        <p class="section-label" style="color:rgba(255,255,255,0.5);">라벨 텍스트</p>
+        <h1 class="section-title">다크 배경 타이틀을<br>여기에 작성합니다</h1>
+        <p class="section-desc mx-auto">서브 설명 텍스트를 여기에 작성합니다.</p>
+        <div class="hero-buttons">
+          <a href="#" class="btn btn-primary">Primary 버튼</a>
+          <a href="#" class="btn btn-secondary">Secondary 버튼</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ CENTER CONTENT 2열 카드 (Center 01)</div>
+    <!-- ======================== -->
+    <section class="center-2col" style="background:var(--bg-light);">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">라벨</p>
+          <h2 class="section-title">섹션 타이틀</h2>
+          <p class="section-desc mx-auto">섹션 설명 텍스트</p>
+        </div>
+        <div class="center-2col-grid">
+          <div class="content-card">
+            <div class="img-placeholder" style="aspect-ratio:16/10;"><i data-lucide="image"></i></div>
+            <div class="content-card-body">
+              <h3 class="content-card-title">카드 타이틀 A</h3>
+              <p class="content-card-desc">카드 설명 텍스트를 여기에 작성합니다.</p>
+            </div>
+          </div>
+          <div class="content-card">
+            <div class="img-placeholder" style="aspect-ratio:16/10;"><i data-lucide="image"></i></div>
+            <div class="content-card-body">
+              <h3 class="content-card-title">카드 타이틀 B</h3>
+              <p class="content-card-desc">카드 설명 텍스트를 여기에 작성합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ LEFT CONTENT 텍스트+이미지 (Left 01)</div>
+    <!-- ======================== -->
+    <section class="left-content">
+      <div class="container">
+        <div class="left-content-inner">
+          <div>
+            <p class="section-label">라벨</p>
+            <h2 class="section-title">좌측 텍스트<br>섹션 타이틀</h2>
+            <p class="section-desc">설명 텍스트를 여기에 작성합니다. 좌측에 텍스트, 우측에 이미지가 배치되는 레이아웃입니다.</p>
+            <div style="margin-top:24px;">
+              <a href="#" class="btn btn-primary">버튼 텍스트</a>
+            </div>
+          </div>
+          <div class="img-placeholder" style="aspect-ratio:4/3;">
+            <i data-lucide="image"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ RIGHT CONTENT 이미지+텍스트 (Right 01)</div>
+    <!-- ======================== -->
+    <section class="right-content" style="background:var(--bg-light);">
+      <div class="container">
+        <div class="right-content-inner">
+          <div class="img-placeholder" style="aspect-ratio:4/3;">
+            <i data-lucide="image"></i>
+          </div>
+          <div>
+            <p class="section-label">라벨</p>
+            <h2 class="section-title">우측 텍스트<br>섹션 타이틀</h2>
+            <p class="section-desc">설명 텍스트를 여기에 작성합니다. 좌측에 이미지, 우측에 텍스트가 배치되는 레이아웃입니다.</p>
+            <div style="margin-top:24px;">
+              <a href="#" class="btn btn-primary">버튼 텍스트</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ FEATURE 3x2 아이콘 카드 (Feature 01)</div>
+    <!-- ======================== -->
+    <section class="feature-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">라벨</p>
+          <h2 class="section-title">기능/특징 섹션 타이틀</h2>
+          <p class="section-desc mx-auto">섹션 설명 텍스트</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="icon-box"><i data-lucide="zap"></i></div>
+            <h3 class="feature-card-title">특징 타이틀 1</h3>
+            <p class="feature-card-desc">특징 설명 텍스트를 여기에 작성합니다.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-box"><i data-lucide="shield"></i></div>
+            <h3 class="feature-card-title">특징 타이틀 2</h3>
+            <p class="feature-card-desc">특징 설명 텍스트를 여기에 작성합니다.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-box"><i data-lucide="heart"></i></div>
+            <h3 class="feature-card-title">특징 타이틀 3</h3>
+            <p class="feature-card-desc">특징 설명 텍스트를 여기에 작성합니다.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-box"><i data-lucide="target"></i></div>
+            <h3 class="feature-card-title">특징 타이틀 4</h3>
+            <p class="feature-card-desc">특징 설명 텍스트를 여기에 작성합니다.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-box"><i data-lucide="users"></i></div>
+            <h3 class="feature-card-title">특징 타이틀 5</h3>
+            <p class="feature-card-desc">특징 설명 텍스트를 여기에 작성합니다.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-box"><i data-lucide="bar-chart"></i></div>
+            <h3 class="feature-card-title">특징 타이틀 6</h3>
+            <p class="feature-card-desc">특징 설명 텍스트를 여기에 작성합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ FEATURE 좌측 이미지+우측 리스트 (Feature 06)</div>
+    <!-- ======================== -->
+    <section class="feature-list-section" style="background:var(--bg-light);">
+      <div class="container">
+        <div class="feature-list-inner">
+          <div class="img-placeholder" style="aspect-ratio:4/3;">
+            <i data-lucide="image"></i>
+          </div>
+          <div>
+            <p class="section-label">라벨</p>
+            <h2 class="section-title">리스트형 특징</h2>
+            <div style="margin-top:8px;">
+              <div class="feature-list-item">
+                <div class="icon-box"><i data-lucide="check"></i></div>
+                <div>
+                  <p class="feature-list-title">항목 타이틀 1</p>
+                  <p class="feature-list-desc">항목 설명 텍스트</p>
+                </div>
+              </div>
+              <div class="feature-list-item">
+                <div class="icon-box"><i data-lucide="check"></i></div>
+                <div>
+                  <p class="feature-list-title">항목 타이틀 2</p>
+                  <p class="feature-list-desc">항목 설명 텍스트</p>
+                </div>
+              </div>
+              <div class="feature-list-item">
+                <div class="icon-box"><i data-lucide="check"></i></div>
+                <div>
+                  <p class="feature-list-title">항목 타이틀 3</p>
+                  <p class="feature-list-desc">항목 설명 텍스트</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ PROCESS 4단계 (Left 04)</div>
+    <!-- ======================== -->
+    <section class="process-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">라벨</p>
+          <h2 class="section-title">프로세스 / 주문 과정</h2>
+        </div>
+        <div class="process-steps">
+          <div class="process-step">
+            <p class="step-number">STEP 01</p>
+            <div class="step-icon-wrap"><i data-lucide="message-circle"></i></div>
+            <h3 class="step-title">단계 1</h3>
+            <p class="step-desc">단계 설명 텍스트</p>
+          </div>
+          <div class="process-step">
+            <p class="step-number">STEP 02</p>
+            <div class="step-icon-wrap"><i data-lucide="file-text"></i></div>
+            <h3 class="step-title">단계 2</h3>
+            <p class="step-desc">단계 설명 텍스트</p>
+          </div>
+          <div class="process-step">
+            <p class="step-number">STEP 03</p>
+            <div class="step-icon-wrap"><i data-lucide="truck"></i></div>
+            <h3 class="step-title">단계 3</h3>
+            <p class="step-desc">단계 설명 텍스트</p>
+          </div>
+          <div class="process-step">
+            <p class="step-number">STEP 04</p>
+            <div class="step-icon-wrap"><i data-lucide="check-circle"></i></div>
+            <h3 class="step-title">단계 4</h3>
+            <p class="step-desc">단계 설명 텍스트</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ TESTIMONIALS 인용문 카드 (Clients 03)</div>
+    <!-- ======================== -->
+    <section class="testimonial-section" style="background:var(--bg-light);">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">라벨</p>
+          <h2 class="section-title">고객 후기</h2>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-quote">"고객 후기 인용문을 여기에 작성합니다. 실제 고객의 목소리를 담아 신뢰를 줍니다."</p>
+          <p class="testimonial-author">고객 이름</p>
+          <p class="testimonial-role">직함 / 회사명</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ TESTIMONIALS 2열 카드 (Clients 04)</div>
+    <!-- ======================== -->
+    <section class="testimonial-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">라벨</p>
+          <h2 class="section-title">고객 후기</h2>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-grid-card">
+            <div class="tg-stars">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+            <p class="tg-text">"후기 텍스트를 여기에 작성합니다."</p>
+            <div class="tg-author">
+              <div class="tg-avatar"></div>
+              <div>
+                <p class="tg-name">고객 이름</p>
+                <p class="tg-role">직함</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-grid-card">
+            <div class="tg-stars">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+            <p class="tg-text">"후기 텍스트를 여기에 작성합니다."</p>
+            <div class="tg-author">
+              <div class="tg-avatar"></div>
+              <div>
+                <p class="tg-name">고객 이름</p>
+                <p class="tg-role">직함</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ FAQ 아코디언 (FAQ 01)</div>
+    <!-- ======================== -->
+    <section class="faq-section" style="background:var(--bg-light);">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">라벨</p>
+          <h2 class="section-title">자주 묻는 질문</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item is-open">
+            <button class="faq-question">질문 1을 여기에 작성합니다 <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">답변 텍스트를 여기에 작성합니다. 충분히 상세하게 작성하세요.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">질문 2를 여기에 작성합니다 <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">답변 텍스트를 여기에 작성합니다.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">질문 3을 여기에 작성합니다 <i data-lucide="chevron-down"></i></button>
+            <div class="faq-answer">답변 텍스트를 여기에 작성합니다.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ CTA 밝은 배경 (CTA 01)</div>
+    <!-- ======================== -->
+    <section class="cta-light">
+      <div class="container">
+        <h2 class="section-title">CTA 타이틀</h2>
+        <p class="section-desc mx-auto">CTA 설명 텍스트를 여기에 작성합니다.</p>
+        <a href="#" class="btn btn-primary">버튼 텍스트</a>
+      </div>
+    </section>
+
+    <!-- ======================== -->
+    <div class="ref-label">▼ CTA 다크 좌우 분할 (CTA 03)</div>
+    <!-- ======================== -->
+    <section class="cta-dark">
+      <div class="container">
+        <div class="cta-dark-inner">
+          <div>
+            <h2 class="section-title">CTA 타이틀</h2>
+            <p class="section-desc">CTA 설명 텍스트를 여기에 작성합니다.</p>
+            <div style="margin-top:24px; display:flex; gap:12px;">
+              <a href="#" class="btn btn-primary">Primary 버튼</a>
+            </div>
+          </div>
+          <div class="img-placeholder" style="aspect-ratio:4/3;">
+            <i data-lucide="image"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================== -->
+  <div class="ref-label">▼ FOOTER 밝은 배경 (Footer 01)</div>
+  <!-- ======================== -->
+  <footer class="footer-light">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand-name">Brand Logo</p>
+          <p class="footer-brand-desc">브랜드 한 줄 설명</p>
+        </div>
+        <div>
+          <p class="footer-col-title">메뉴</p>
+          <a href="#">링크 1</a>
+          <a href="#">링크 2</a>
+          <a href="#">링크 3</a>
+        </div>
+        <div>
+          <p class="footer-col-title">안내</p>
+          <a href="#">링크 1</a>
+          <a href="#">링크 2</a>
+          <a href="#">링크 3</a>
+        </div>
+        <div>
+          <p class="footer-col-title">고객 지원</p>
+          <a href="#">전화번호</a>
+          <a href="#">이메일</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Brand. All rights reserved.</span>
+        <span>이용약관 | 개인정보처리방침</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    // FAQ 아코디언
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.faq-item').classList.toggle('is-open');
+      });
+    });
+  </script>
+</body>
+</html>

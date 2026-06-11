@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>리뷰 | 몽젤로·젤로베베</title>
+  <meta name="description" content="엄마들이 직접 남긴 진짜 후기. 몽젤로·젤로베베 포토 리뷰.">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ========== 와이어프레임 공통 (index.html과 동일) ========== */
+    :root {
+      --text-black: #1A1A1A; --text-dark: #333333; --text-gray: #666666;
+      --text-light: #999999; --text-muted: #BCBCBC;
+      --bg-white: #FFFFFF; --bg-light: #F5F5F5; --bg-dark: #2D2D2D; --bg-black: #1A1A1A;
+      --border-light: #E0E0E0; --border-default: #D0D0D0;
+      --placeholder-bg: #E0E0E0; --placeholder-icon: #BCBCBC;
+      --radius-sm: 8px; --radius-md: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Pretendard', sans-serif; color: var(--text-gray); line-height: 1.6; background: var(--bg-white); }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; font-family: inherit; background: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; transition: opacity 0.2s; }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--text-black); color: #FFFFFF; border: 1px solid var(--text-black); }
+    .btn-secondary { background: var(--bg-white); color: var(--text-black); border: 1px solid var(--border-default); }
+    .section-label { font-size: 14px; font-weight: 600; color: var(--text-light); margin-bottom: 12px; }
+    .section-title { font-size: 36px; font-weight: 700; color: var(--text-black); line-height: 1.3; margin-bottom: 16px; }
+    .section-desc { font-size: 16px; color: var(--text-gray); line-height: 1.7; max-width: 560px; }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .img-placeholder { background: var(--placeholder-bg); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; width: 100%; }
+    .img-placeholder svg { color: var(--placeholder-icon); width: 48px; height: 48px; }
+
+    /* ========== 공통 헤더 ========== */
+    .site-header { position: sticky; top: 0; z-index: 1000; background: var(--bg-white); border-bottom: 1px solid var(--border-light); transition: transform 0.25s ease; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; transition: height 0.2s ease; }
+    .site-header.is-compact .header-inner { height: 60px; }
+    .site-header.is-compact .header-logo { font-size: 18px; }
+    .site-header.is-hidden { transform: translateY(-100%); }
+    .header-logo { font-size: 21px; font-weight: 800; color: var(--text-black); letter-spacing: 2px; transition: font-size 0.2s ease; }
+    .gnb { display: flex; gap: 32px; }
+    .gnb-item { position: relative; }
+    .gnb-item > a { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 500; color: var(--text-dark); padding: 24px 0; }
+    .gnb-item > a.is-current { font-weight: 700; color: var(--text-black); border-bottom: 2px solid var(--text-black); }
+    .gnb-item > a svg { width: 14px; height: 14px; color: var(--text-light); }
+    .gnb-dropdown { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); min-width: 180px; background: var(--bg-white); border: 1px solid var(--border-light); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); padding: 8px 0; }
+    .gnb-item:hover .gnb-dropdown { display: block; }
+    .gnb-dropdown a { display: block; padding: 9px 20px; font-size: 14px; color: var(--text-gray); white-space: nowrap; }
+    .gnb-dropdown a:hover { background: var(--bg-light); color: var(--text-black); }
+    .gnb-dropdown a strong { color: var(--text-black); font-weight: 700; }
+    .header-utils { display: flex; align-items: center; gap: 16px; }
+    .util-icon { position: relative; display: inline-flex; padding: 4px; }
+    .util-icon svg { width: 24px; height: 24px; color: var(--text-dark); stroke-width: 2; }
+    .cart-badge { position: absolute; top: -2px; right: -4px; min-width: 16px; height: 16px; border-radius: 8px; background: var(--text-black); color: #FFFFFF; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .hamburger-btn { display: none; padding: 4px; }
+    .hamburger-btn svg { width: 24px; height: 24px; color: var(--text-dark); }
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1100; display: none; }
+    .drawer-overlay.is-open { display: block; }
+    .drawer { position: fixed; top: 0; left: 0; width: 85%; max-width: 360px; height: 100%; background: var(--bg-white); z-index: 1200; transform: translateX(-100%); transition: transform 0.25s ease; overflow-y: auto; }
+    .drawer.is-open { transform: translateX(0); }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 20px; border-bottom: 1px solid var(--border-light); }
+    .drawer-head .header-logo { font-size: 18px; }
+    .drawer-close svg { width: 24px; height: 24px; color: var(--text-dark); }
+    .drawer-menu > li { border-bottom: 1px solid var(--border-light); }
+    .drawer-menu > li > a, .drawer-acc-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px 20px; font-size: 16px; font-weight: 600; color: var(--text-black); text-align: left; }
+    .drawer-acc-btn svg { width: 18px; height: 18px; color: var(--text-light); transition: transform 0.2s; }
+    .drawer-acc.is-open .drawer-acc-btn svg { transform: rotate(180deg); }
+    .drawer-sub { display: none; background: var(--bg-light); padding: 8px 0; }
+    .drawer-acc.is-open .drawer-sub { display: block; }
+    .drawer-sub a { display: block; padding: 10px 28px; font-size: 14px; color: var(--text-gray); }
+    .drawer-sub a strong { color: var(--text-black); }
+
+    /* ==========================================
+       섹션 1: 리뷰 요약 + 필터 (상단 요약 바 + 필터 칩)
+       ========================================== */
+    .review-head-section { padding: 64px 0 0; background: var(--bg-white); }
+    .review-summary-bar { display: flex; align-items: center; justify-content: center; gap: 40px; background: var(--bg-light); border-radius: var(--radius-md); padding: 32px; margin-top: 40px; flex-wrap: wrap; }
+    .review-score { display: flex; align-items: center; gap: 12px; }
+    .review-score-num { font-size: 44px; font-weight: 800; color: var(--text-black); }
+    .review-stars { display: flex; gap: 2px; }
+    .review-stars svg { width: 18px; height: 18px; color: var(--text-dark); }
+    .review-summary-copy { font-size: 16px; color: var(--text-gray); }
+    .review-summary-copy strong { color: var(--text-black); }
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 24px; }
+    .chip { display: inline-flex; align-items: center; gap: 4px; padding: 9px 16px; border: 1px solid var(--border-default); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text-gray); background: var(--bg-white); }
+    .chip svg { width: 13px; height: 13px; }
+    .chip.is-active { background: var(--text-black); color: #FFFFFF; border-color: var(--text-black); }
+
+    /* ==========================================
+       섹션 2: 포토 리뷰 그리드 (PC 4열 / 모바일 2열)
+       베스트 리뷰 상단 고정 — "MD 추천 후기"
+       ========================================== */
+    .review-grid-section { padding: 48px 0 96px; background: var(--bg-white); }
+    .md-pick-label { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--text-black); margin-bottom: 16px; }
+    .md-pick-label svg { width: 16px; height: 16px; }
+    .review-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .review-grid + .md-pick-label, .all-reviews-block { margin-top: 48px; }
+    .review-card { border: 1px solid var(--border-light); border-radius: var(--radius-md); overflow: hidden; text-align: left; background: var(--bg-white); display: block; width: 100%; }
+    .review-card .img-placeholder { aspect-ratio: 1/1; border-radius: 0; }
+    .review-card-body { padding: 16px; }
+    .review-card .review-stars svg { width: 13px; height: 13px; }
+    .review-card-meta { font-size: 12px; color: var(--text-light); margin: 6px 0 4px; }
+    .review-card-text { font-size: 14px; color: var(--text-gray); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .md-badge { position: relative; }
+    .md-badge-tag { position: absolute; top: 10px; left: 10px; z-index: 2; padding: 4px 10px; background: var(--text-black); color: #FFFFFF; font-size: 11px; font-weight: 700; border-radius: 4px; }
+    .review-load-more { text-align: center; margin-top: 48px; }
+
+    /* 리뷰 상세 모달 (상품 링크 포함) */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1700; display: none; align-items: center; justify-content: center; padding: 24px; }
+    .modal-overlay.is-open { display: flex; }
+    .review-modal { width: 100%; max-width: 720px; max-height: 85vh; overflow-y: auto; background: var(--bg-white); border-radius: var(--radius-md); }
+    .review-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; background: var(--bg-white); }
+    .review-modal-title { font-size: 16px; font-weight: 700; color: var(--text-black); }
+    .review-modal-close svg { width: 22px; height: 22px; color: var(--text-dark); }
+    .review-modal-body { padding: 24px; }
+    .review-modal-body .img-placeholder { aspect-ratio: 4/3; margin-bottom: 20px; }
+    .review-modal-meta { font-size: 13px; color: var(--text-light); margin: 8px 0 12px; }
+    .review-modal-text { font-size: 15px; color: var(--text-gray); line-height: 1.7; }
+    /* 모달 내 상품 링크 카드 */
+    .modal-product-link { display: flex; gap: 14px; align-items: center; margin-top: 24px; padding: 14px; border: 1px solid var(--border-light); border-radius: var(--radius-md); }
+    .modal-product-link .img-placeholder { width: 64px; height: 64px; aspect-ratio: auto; margin: 0; flex-shrink: 0; }
+    .modal-product-link .img-placeholder svg { width: 22px; height: 22px; }
+    .modal-product-name { font-size: 14px; font-weight: 600; color: var(--text-black); }
+    .modal-product-price { font-size: 14px; font-weight: 700; color: var(--text-black); margin-top: 2px; }
+    .modal-product-go { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--text-dark); white-space: nowrap; }
+    .modal-product-go svg { width: 14px; height: 14px; }
+
+    /* ========== 공통 푸터 ========== */
+    .site-footer { padding: 60px 0 32px; background: var(--bg-white); border-top: 1px solid var(--border-light); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--border-light); }
+    .footer-brand-name { font-size: 18px; font-weight: 800; color: var(--text-black); letter-spacing: 1px; margin-bottom: 12px; }
+    .footer-company-info { font-size: 13px; color: var(--text-light); line-height: 1.8; }
+    .footer-col-title { font-size: 14px; font-weight: 700; color: var(--text-black); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; width: 100%; text-align: left; }
+    .footer-col-title svg { display: none; width: 16px; height: 16px; color: var(--text-light); transition: transform 0.2s; }
+    .footer-col-links a { display: block; font-size: 14px; color: var(--text-light); padding: 4px 0; }
+    .footer-sns-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-gray); padding: 4px 0; }
+    .footer-sns-link svg { width: 18px; height: 18px; }
+    .footer-newsletter-note { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 24px; font-size: 13px; color: var(--text-muted); }
+    .footer-policy a { color: var(--text-gray); margin-left: 16px; }
+    .footer-policy a.privacy { font-weight: 700; color: var(--text-dark); }
+    .escrow-slot { display: inline-flex; align-items: center; justify-content: center; width: 120px; height: 36px; background: var(--bg-light); border: 1px dashed var(--border-default); border-radius: 4px; font-size: 11px; color: var(--text-light); }
+
+    /* ========== 플로팅 ========== */
+    .floating-stack { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 12px; z-index: 1500; }
+    .floating-btn { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); }
+    .floating-kakao { background: var(--text-black); }
+    .floating-kakao svg { width: 24px; height: 24px; color: #FFFFFF; }
+    .floating-top { background: var(--bg-white); border: 1px solid var(--border-default); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .floating-top.is-visible { opacity: 1; pointer-events: auto; }
+    .floating-top svg { width: 22px; height: 22px; color: var(--text-dark); }
+
+    /* ========== 반응형 ========== */
+    @media (max-width: 768px) {
+      .section-title { font-size: 26px; }
+      .header-inner { height: 56px; }
+      .site-header.is-compact .header-inner { height: 56px; }
+      .gnb { display: none; }
+      .hamburger-btn { display: inline-flex; }
+      .header-logo { font-size: 18px; }
+
+      .review-head-section { padding: 48px 0 0; }
+      .review-grid-section { padding: 40px 0 72px; }
+      .review-summary-bar { gap: 16px; padding: 24px; flex-direction: column; }
+      /* 포토 그리드: 모바일 2열 */
+      .review-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 0; }
+      .footer-brand-col { padding-bottom: 24px; }
+      .footer-col { border-top: 1px solid var(--border-light); }
+      .footer-col-title { margin-bottom: 0; padding: 16px 0; cursor: pointer; }
+      .footer-col-title svg { display: inline-block; }
+      .footer-col.is-open .footer-col-title svg { transform: rotate(180deg); }
+      .footer-col-links { display: none; padding-bottom: 16px; }
+      .footer-col.is-open .footer-col-links { display: block; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .floating-stack { right: 16px; bottom: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== 공통 헤더 ========== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="header-logo">MONGJELO</a>
+        <nav class="gnb">
+          <div class="gnb-item">
+            <a href="mongjelo.html">몽젤로 <i data-lucide="chevron-down"></i></a>
+            <div class="gnb-dropdown">
+              <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+              <a href="mongjelo.html">아우터</a>
+              <a href="mongjelo.html">상의</a>
+              <a href="mongjelo.html">하의</a>
+              <a href="mongjelo.html">세트</a>
+              <a href="mongjelo.html">기능성·액티브</a>
+              <a href="mongjelo.html">소품</a>
+            </div>
+          </div>
+          <div class="gnb-item">
+            <a href="zelobebe.html">젤로베베 <i data-lucide="chevron-down"></i></a>
+            <div class="gnb-dropdown">
+              <a href="zelobebe.html">아우터</a>
+              <a href="zelobebe.html">상의</a>
+              <a href="zelobebe.html">하의</a>
+              <a href="zelobebe.html">세트·한벌</a>
+              <a href="zelobebe.html">이너·베이직</a>
+              <a href="zelobebe.html">소품(모자·가방)</a>
+              <a href="zelobebe.html">오가닉</a>
+            </div>
+          </div>
+          <div class="gnb-item"><a href="story.html">브랜드 스토리</a></div>
+          <div class="gnb-item"><a href="lookbook.html">룩북</a></div>
+          <div class="gnb-item"><a href="review.html" class="is-current">리뷰</a></div>
+          <div class="gnb-item"><a href="support.html">고객센터</a></div>
+        </nav>
+        <div class="header-utils">
+          <a href="#" class="util-icon" aria-label="장바구니"><i data-lucide="shopping-bag"></i><span class="cart-badge">0</span></a>
+          <a href="#" class="util-icon" aria-label="마이페이지"><i data-lucide="user"></i></a>
+          <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기"><i data-lucide="menu"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 모바일 드로어 -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <span class="header-logo">MONGJELO</span>
+      <button class="drawer-close" id="drawerClose" aria-label="메뉴 닫기"><i data-lucide="x"></i></button>
+    </div>
+    <ul class="drawer-menu">
+      <li class="drawer-acc">
+        <button class="drawer-acc-btn">몽젤로 <i data-lucide="chevron-down"></i></button>
+        <div class="drawer-sub">
+          <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+          <a href="mongjelo.html">아우터</a><a href="mongjelo.html">상의</a><a href="mongjelo.html">하의</a>
+          <a href="mongjelo.html">세트</a><a href="mongjelo.html">기능성·액티브</a><a href="mongjelo.html">소품</a>
+        </div>
+      </li>
+      <li class="drawer-acc">
+        <button class="drawer-acc-btn">젤로베베 <i data-lucide="chevron-down"></i></button>
+        <div class="drawer-sub">
+          <a href="zelobebe.html">아우터</a><a href="zelobebe.html">상의</a><a href="zelobebe.html">하의</a>
+          <a href="zelobebe.html">세트·한벌</a><a href="zelobebe.html">이너·베이직</a>
+          <a href="zelobebe.html">소품(모자·가방)</a><a href="zelobebe.html">오가닉</a>
+        </div>
+      </li>
+      <li><a href="story.html">브랜드 스토리</a></li>
+      <li><a href="lookbook.html">룩북</a></li>
+      <li><a href="review.html">리뷰</a></li>
+      <li><a href="support.html">고객센터</a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <!-- ==========================================
+         섹션 1: 리뷰 요약 + 필터
+         상단 요약 바 (별점 평균·리뷰 수) + 필터 칩
+         ========================================== -->
+    <section class="review-head-section">
+      <div class="container">
+        <div class="text-center">
+          <p class="section-label">REVIEW</p>
+          <h1 class="section-title">엄마들의 진짜 후기</h1>
+        </div>
+
+        <!-- 요약 바: 데이터 카피 [자동적용 — 초기 시드 리뷰] -->
+        <div class="review-summary-bar">
+          <div class="review-score">
+            <span class="review-score-num">0.0</span>
+            <div class="review-stars">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+          </div>
+          <p class="review-summary-copy">엄마들이 남긴 <strong>OO개</strong>의 후기 [자동적용]</p>
+        </div>
+
+        <!-- 필터 칩: 브랜드 · 카테고리 · 사이즈 · 별점 · 포토리뷰만 -->
+        <div class="filter-chips">
+          <button class="chip is-active">전체</button>
+          <button class="chip">몽젤로</button>
+          <button class="chip">젤로베베</button>
+          <button class="chip">카테고리 <i data-lucide="chevron-down"></i></button>
+          <button class="chip">사이즈 <i data-lucide="chevron-down"></i></button>
+          <button class="chip">별점 <i data-lucide="chevron-down"></i></button>
+          <button class="chip"><i data-lucide="camera"></i> 포토리뷰만</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         섹션 2: 포토 리뷰 그리드 (PC 4열 / 모바일 2열)
+         베스트 리뷰 상단 고정 — "MD 추천 후기"
+         카드 클릭 → 리뷰 상세 모달 (상품 링크 포함)
+         ========================================== -->
+    <section class="review-grid-section">
+      <div class="container">
+
+        <!-- 베스트 리뷰 (MD 추천 후기) — 상단 고정 -->
+        <p class="md-pick-label"><i data-lucide="award"></i> MD 추천 후기</p>
+        <div class="review-grid">
+          <button class="review-card md-badge" data-modal="reviewModal">
+            <span class="md-badge-tag">BEST</span>
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <div class="review-card-body">
+              <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+              <p class="review-card-meta">00개월 / 사이즈 M [플레이스홀더]</p>
+              <p class="review-card-text">베스트 리뷰 본문 일부 [플레이스홀더]</p>
+            </div>
+          </button>
+          <button class="review-card md-badge" data-modal="reviewModal">
+            <span class="md-badge-tag">BEST</span>
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <div class="review-card-body">
+              <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+              <p class="review-card-meta">00개월 / 사이즈 S [플레이스홀더]</p>
+              <p class="review-card-text">베스트 리뷰 본문 일부 [플레이스홀더]</p>
+            </div>
+          </button>
+          <button class="review-card md-badge" data-modal="reviewModal">
+            <span class="md-badge-tag">BEST</span>
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <div class="review-card-body">
+              <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+              <p class="review-card-meta">00세 / 사이즈 L [플레이스홀더]</p>
+              <p class="review-card-text">베스트 리뷰 본문 일부 [플레이스홀더]</p>
+            </div>
+          </button>
+          <button class="review-card md-badge" data-modal="reviewModal">
+            <span class="md-badge-tag">BEST</span>
+            <div class="img-placeholder"><i data-lucide="image"></i></div>
+            <div class="review-card-body">
+              <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+              <p class="review-card-meta">00개월 / 사이즈 M [플레이스홀더]</p>
+              <p class="review-card-text">베스트 리뷰 본문 일부 [플레이스홀더]</p>
+            </div>
+          </button>
+        </div>
+
+        <!-- 전체 포토 리뷰 그리드 -->
+        <div class="all-reviews-block">
+          <p class="md-pick-label"><i data-lucide="camera"></i> 포토 리뷰</p>
+          <div class="review-grid">
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00개월 / 사이즈 S [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00개월 / 사이즈 M [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00세 / 사이즈 L [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00개월 / 사이즈 S [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00개월 / 사이즈 M [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00세 / 사이즈 L [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00개월 / 사이즈 S [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+            <button class="review-card" data-modal="reviewModal">
+              <div class="img-placeholder"><i data-lucide="image"></i></div>
+              <div class="review-card-body">
+                <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                <p class="review-card-meta">00개월 / 사이즈 M [플레이스홀더]</p>
+                <p class="review-card-text">리뷰 본문 일부 [플레이스홀더]</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="review-load-more">
+          <button class="btn btn-secondary">리뷰 더 보기</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 리뷰 상세 모달 (상품 링크 포함) -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="review-modal">
+      <div class="review-modal-head">
+        <p class="review-modal-title">리뷰 상세</p>
+        <button class="review-modal-close" id="reviewModalClose" aria-label="닫기"><i data-lucide="x"></i></button>
+      </div>
+      <div class="review-modal-body">
+        <div class="img-placeholder"><i data-lucide="image"></i></div>
+        <div class="review-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+        <p class="review-modal-meta">00개월 / 키 000cm / 사이즈 M 구매 [플레이스홀더]</p>
+        <p class="review-modal-text">리뷰 본문 전체 [플레이스홀더]</p>
+        <a href="product.html" class="modal-product-link">
+          <div class="img-placeholder"><i data-lucide="image"></i></div>
+          <div>
+            <p class="modal-product-name">[구매 상품명]</p>
+            <p class="modal-product-price">00,000원</p>
+          </div>
+          <span class="modal-product-go">상품 보기 <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 공통 푸터 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <p class="footer-brand-name">MONGJELO</p>
+          <p class="footer-company-info">
+            상호 [플레이스홀더] · 대표자 [플레이스홀더]<br>
+            사업자등록번호 [플레이스홀더]<br>
+            통신판매업신고 [플레이스홀더]<br>
+            주소 [플레이스홀더]<br>
+            전화 [플레이스홀더] · 이메일 [플레이스홀더]
+          </p>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">쇼핑 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="mongjelo.html">몽젤로</a>
+            <a href="zelobebe.html">젤로베베</a>
+            <a href="story.html">브랜드 스토리</a>
+            <a href="lookbook.html">룩북</a>
+            <a href="review.html">리뷰</a>
+            <a href="support.html">고객센터</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">고객지원 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="support.html">사이즈 가이드</a>
+            <a href="support.html">배송/교환/반품</a>
+            <a href="support.html">자주 묻는 질문</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-title">SNS·뉴스레터 <i data-lucide="chevron-down"></i></button>
+          <div class="footer-col-links">
+            <a href="#" class="footer-sns-link" target="_blank" rel="noopener"><i data-lucide="instagram"></i> 인스타그램</a>
+            <p class="footer-newsletter-note">브랜딩 핵심 채널</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© MONGJELO. All rights reserved.</span>
+        <span class="escrow-slot">에스크로 마크 [플레이스홀더]</span>
+        <span class="footer-policy">
+          <a href="#" class="privacy">개인정보처리방침</a>
+          <a href="#">이용약관</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== 플로팅: 카카오 문의 + TOP ========== -->
+  <div class="floating-stack">
+    <a href="#" class="floating-btn floating-kakao" aria-label="카카오톡 문의"><i data-lucide="message-circle"></i></a>
+    <button class="floating-btn floating-top" id="topBtn" aria-label="맨 위로"><i data-lucide="arrow-up"></i></button>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    /* 모바일 드로어 */
+    (function () {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      document.getElementById('hamburgerBtn').addEventListener('click', () => { drawer.classList.add('is-open'); overlay.classList.add('is-open'); });
+      const close = () => { drawer.classList.remove('is-open'); overlay.classList.remove('is-open'); };
+      document.getElementById('drawerClose').addEventListener('click', close);
+      overlay.addEventListener('click', close);
+      document.querySelectorAll('.drawer-acc-btn').forEach(btn => {
+        btn.addEventListener('click', () => btn.closest('.drawer-acc').classList.toggle('is-open'));
+      });
+    })();
+
+    /* 헤더 스크롤 동작 */
+    (function () {
+      const header = document.getElementById('siteHeader');
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        header.classList.toggle('is-compact', y > 80);
+        if (window.innerWidth <= 768) {
+          if (y > lastY && y > 120) header.classList.add('is-hidden');
+          else header.classList.remove('is-hidden');
+        } else { header.classList.remove('is-hidden'); }
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    /* 플로팅 TOP */
+    (function () {
+      const topBtn = document.getElementById('topBtn');
+      window.addEventListener('scroll', () => topBtn.classList.toggle('is-visible', window.scrollY > 400), { passive: true });
+      topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+
+    /* 푸터 아코디언 (모바일) */
+    document.querySelectorAll('.footer-col-title').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 768) btn.closest('.footer-col').classList.toggle('is-open');
+      });
+    });
+
+    /* 필터 칩 토글 */
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+      });
+    });
+
+    /* 리뷰 카드 클릭 → 상세 모달 */
+    (function () {
+      const modal = document.getElementById('reviewModal');
+      document.querySelectorAll('.review-card').forEach(card => {
+        card.addEventListener('click', () => modal.classList.add('is-open'));
+      });
+      document.getElementById('reviewModalClose').addEventListener('click', () => modal.classList.remove('is-open'));
+      modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('is-open'); });
+    })();
+  </script>
+</body>
+</html>
