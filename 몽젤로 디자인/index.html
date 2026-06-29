@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>몽젤로·젤로베베 | 함께 자라는 유아동복</title>
+<meta name="description" content="영유아부터 키즈까지, 직접 보고 짓는 정직한 소재의 유아동복. 젤로베베와 몽젤로.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="assets/site.css?v=37">
+</head>
+<body>
+
+<!-- ===================== 헤더 (와이어프레임 사이트맵) ===================== -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo"><img class="logo-img" src="assets/logo-mongjelo-b.svg" alt="몽젤로"></a>
+    <nav class="gnb">
+      <div class="gnb-item">
+        <a href="mongjelo.html">몽젤로 <i data-lucide="chevron-down"></i></a>
+        <div class="gnb-dd">
+          <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+          <a href="mongjelo.html">아우터</a><a href="mongjelo.html">상의</a><a href="mongjelo.html">하의</a>
+          <a href="mongjelo.html">세트</a><a href="mongjelo.html">기능성·액티브</a><a href="mongjelo.html">소품</a>
+        </div>
+      </div>
+      <div class="gnb-item">
+        <a href="zelobebe.html">젤로베베 <i data-lucide="chevron-down"></i></a>
+        <div class="gnb-dd">
+          <a href="zelobebe.html">아우터</a><a href="zelobebe.html">상의</a><a href="zelobebe.html">하의</a>
+          <a href="zelobebe.html">세트·한벌</a><a href="zelobebe.html">이너·베이직</a>
+          <a href="zelobebe.html">소품(모자·가방)</a><a href="zelobebe.html">오가닉</a>
+        </div>
+      </div>
+      <div class="gnb-item"><a href="story.html">브랜드 스토리</a></div>
+      <div class="gnb-item"><a href="lookbook.html">룩북</a></div>
+      <div class="gnb-item"><a href="review.html">리뷰</a></div>
+      <div class="gnb-item"><a href="support.html">고객센터</a></div>
+    </nav>
+    <div class="header-utils">
+      <a href="#" class="util-icon" aria-label="장바구니"><i data-lucide="shopping-bag"></i><span class="cart-badge">0</span></a>
+      <a href="#" class="util-icon" aria-label="마이페이지"><i data-lucide="user"></i></a>
+      <button class="hamburger" id="hamburger" aria-label="메뉴 열기"><i data-lucide="menu"></i></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head"><span class="header-logo"><img class="logo-img" src="assets/logo-mongjelo-b.svg" alt="몽젤로"></span><button class="drawer-close" id="drawerClose" aria-label="닫기"><i data-lucide="x"></i></button></div>
+  <ul class="drawer-menu">
+    <li class="drawer-acc">
+      <button class="drawer-acc-btn">몽젤로 <i data-lucide="chevron-down"></i></button>
+      <div class="drawer-sub">
+        <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+        <a href="mongjelo.html">아우터</a><a href="mongjelo.html">상의</a><a href="mongjelo.html">하의</a>
+        <a href="mongjelo.html">세트</a><a href="mongjelo.html">기능성·액티브</a><a href="mongjelo.html">소품</a>
+      </div>
+    </li>
+    <li class="drawer-acc">
+      <button class="drawer-acc-btn">젤로베베 <i data-lucide="chevron-down"></i></button>
+      <div class="drawer-sub">
+        <a href="zelobebe.html">아우터</a><a href="zelobebe.html">상의</a><a href="zelobebe.html">하의</a>
+        <a href="zelobebe.html">세트·한벌</a><a href="zelobebe.html">이너·베이직</a>
+        <a href="zelobebe.html">소품(모자·가방)</a><a href="zelobebe.html">오가닉</a>
+      </div>
+    </li>
+    <li><a href="story.html">브랜드 스토리</a></li>
+    <li><a href="lookbook.html">룩북</a></li>
+    <li><a href="review.html">리뷰</a></li>
+    <li><a href="support.html">고객센터</a></li>
+  </ul>
+</aside>
+
+<main>
+
+  <!-- 섹션 1: 히어로 (3슬라이드) -->
+  <section class="hero" id="hero">
+    <div class="hero-slide active">
+      <div class="img-ph"><img src="assets/media/3836367554798077465.jpg" alt="몽젤로"></div>
+      <div class="hero-text"><h1 class="title">오래 입혀도<br>질리지 않는 옷</h1><p class="sub">유행이 아니라, 아이의 시간에 맞춘 디자인</p></div>
+    </div>
+    <div class="hero-slide">
+      <div class="img-ph"><img src="assets/media/3819004172457640722.jpg" alt="몽젤로"></div>
+      <div class="hero-text"><h2 class="title">한 장의 사진으로<br>시작된 브랜드</h2><p class="sub">카이만 패딩, 그 겨울의 따뜻함을 기억합니다</p></div>
+    </div>
+    <div class="hero-slide">
+      <div class="img-ph"><img src="assets/media/3819006239913987382.jpg" alt="몽젤로"></div>
+      <div class="hero-text"><h2 class="title">영유아부터 키즈까지,<br>한 곳에서</h2><p class="sub">젤로베베와 몽젤로를 지금 만나보세요</p></div>
+    </div>
+    <div class="hero-ui">
+      <div class="hero-paging"><span class="cur">01</span><span class="sep"></span><span class="all">03</span></div>
+    </div>
+  </section>
+
+    <!-- 섹션(히어로 다음): 베스트 상품 — 메이크온 Best Seller 가운데정렬 슬라이더 -->
+  <section class="section">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">지금 가장 많이 담는 옷</p>
+        <h2 class="en">Best Seller</h2>
+      </div>
+    </div>
+    <div class="best-slider reveal">
+      <div class="swiper"><div class="swiper-wrapper">
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3819004172457640722.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">[상품명 1]</p>
+            <p class="desc">단정하게 매일 입는 데일리 키즈룩</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3819006239913987382.jpg" alt="몽젤로"></div><span class="organic-badge">ORGANIC</span></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 1]</p>
+            <p class="desc">맨살에 닿아도 좋은 정직한 소재</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3828726635642905525.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">카이만 패딩</p>
+            <p class="desc">겨울마다 다시 찾는 시그니처 오리털 라인</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3828732348603724296.jpg" alt="몽젤로"></div><span class="organic-badge">ORGANIC</span></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 2]</p>
+            <p class="desc">여린 피부를 위한 부드러운 오가닉</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441638721262627.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">[상품명 2]</p>
+            <p class="desc">활동성과 스타일 사이의 균형감</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932668012920251.jpg" alt="몽젤로"></div><span class="organic-badge">ORGANIC</span></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 3]</p>
+            <p class="desc">유기농 원단으로 짓는 첫 옷</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3836367554798077465.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">[상품명 3]</p>
+            <p class="desc">오래 입어도 질리지 않는 베이직</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3836372508237527000.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 4]</p>
+            <p class="desc">매일 입히기 좋은 데일리 베이직</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3819004172457640722.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">[상품명 1]</p>
+            <p class="desc">단정하게 매일 입는 데일리 키즈룩</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3819006239913987382.jpg" alt="몽젤로"></div><span class="organic-badge">ORGANIC</span></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 1]</p>
+            <p class="desc">맨살에 닿아도 좋은 정직한 소재</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3828726635642905525.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">카이만 패딩</p>
+            <p class="desc">겨울마다 다시 찾는 시그니처 오리털 라인</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3828732348603724296.jpg" alt="몽젤로"></div><span class="organic-badge">ORGANIC</span></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 2]</p>
+            <p class="desc">여린 피부를 위한 부드러운 오가닉</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441638721262627.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">[상품명 2]</p>
+            <p class="desc">활동성과 스타일 사이의 균형감</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932668012920251.jpg" alt="몽젤로"></div><span class="organic-badge">ORGANIC</span></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 3]</p>
+            <p class="desc">유기농 원단으로 짓는 첫 옷</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3836367554798077465.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-mongjelo-b.svg" alt="몽젤로">
+            <p class="name">[상품명 3]</p>
+            <p class="desc">오래 입어도 질리지 않는 베이직</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="swiper-slide best-card">
+          <a href="product.html" class="media"><div class="img-ph"><img src="assets/media/3836372508237527000.jpg" alt="몽젤로"></div></a>
+          <div class="best-cap">
+            <img class="brand" src="assets/logo-zelobebe-b.svg" alt="젤로베베">
+            <p class="name">[상품명 4]</p>
+            <p class="desc">매일 입히기 좋은 데일리 베이직</p>
+            <a href="product.html" class="btn btn-more">Detail view <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 섹션: 두 브랜드 (고정 배경 + 스크롤로 카드 크로스페이드) -->
+  <section class="newitem" id="twoBrands">
+    <div class="newitem-sticky">
+      <div class="newitem-bg"><div class="img-ph"><img src="assets/newitem-bg.png?v=24" alt=""></div></div>
+      <div class="newitem-head">
+        <p class="tag">우리 아이는 지금 어느 계절인가요</p>
+        <h2 class="en">Two Brands</h2>
+      </div>
+      <div class="newitem-stage">
+        <a href="mongjelo.html" class="ni-card ni-mong is-active">
+          <p class="nm">몽젤로</p>
+          <p class="en">Mongjelo · Kids 8–13</p>
+          <div class="media"><div class="img-ph"><img src="assets/two-mongjelo.png" alt="몽젤로"></div></div>
+          <p class="desc">자기 취향이 생긴 아이를 위한, 시크하고 단정한 키즈룩</p>
+          <span class="btn btn-more">몽젤로 보기 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="zelobebe.html" class="ni-card ni-zelo">
+          <p class="nm">젤로베베</p>
+          <p class="en">Zelobebe · Baby 0–7</p>
+          <div class="media"><div class="img-ph"><img src="assets/two-zelobebe.png" alt="젤로베베"></div></div>
+          <p class="desc">여린 피부에 닿는 첫 옷, 정직한 소재의 영유아룩</p>
+          <span class="btn btn-more">젤로베베 보기 <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 6: 실시간 포토 리뷰 -->
+  <section class="section">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">엄마들이 직접 남긴 후기</p>
+        <h2 class="en">Review</h2>
+      </div>
+      <div class="hscroll reveal">
+        <div class="review-card"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441648787600192.jpg" alt="몽젤로"></div><div class="review-card-body"><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-text">"두 살 터울 남매에게 같이 입혀요. 소재가 부드러워서 안심돼요."</p><p class="review-meta">24개월 / 사이즈 M</p></div></div>
+        <div class="review-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932675638157026.jpg" alt="몽젤로"></div><div class="review-card-body"><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-text">"카이만 패딩 작년에 이어 또 샀어요. 가볍고 따뜻해요."</p><p class="review-meta">9세 / 사이즈 L</p></div></div>
+        <div class="review-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932684899132033.jpg" alt="몽젤로"></div><div class="review-card-body"><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-text">"아이가 직접 골랐는데 매일 이것만 찾아 입어요."</p><p class="review-meta">7세 / 사이즈 S</p></div></div>
+        <div class="review-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932691836506306.jpg" alt="몽젤로"></div><div class="review-card-body"><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-text">"오가닉 라인이라 신생아 때부터 믿고 입혔어요."</p><p class="review-meta">5개월 / 사이즈 00</p></div></div>
+        <div class="review-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932699931547548.jpg" alt="몽젤로"></div><div class="review-card-body"><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-text">"세탁 여러 번 해도 형태가 그대로예요. 만족합니다."</p><p class="review-meta">11세 / 사이즈 L</p></div></div>
+        <div class="review-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932708060070717.jpg" alt="몽젤로"></div><div class="review-card-body"><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-text">"사진보다 실물이 더 단정하고 예뻐요."</p><p class="review-meta">3세 / 사이즈 M</p></div></div>
+      </div>
+      <div class="more-row reveal"><a href="review.html" class="btn btn-secondary btn-more">리뷰 전체 보기 <i data-lucide="arrow-right"></i></a></div>
+    </div>
+  </section>
+
+  <!-- 섹션 7: 인스타그램 -->
+  <section class="section soft">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">일상 속 몽젤로 · 젤로베베</p>
+        <h2 class="en">@mongjelo</h2>
+      </div>
+      <div class="insta-grid reveal">
+        <a href="#" target="_blank" rel="noopener"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932717782471269.jpg" alt="몽젤로"></div></a>
+        <a href="#" target="_blank" rel="noopener"><div class="img-ph"><img src="assets/media/3841647943787326418_3841645947600587203.jpg" alt="몽젤로"></div></a>
+        <a href="#" target="_blank" rel="noopener"><div class="img-ph"><img src="assets/media/3841647943787326418_3841645957398522322.jpg" alt="몽젤로"></div></a>
+        <a href="#" target="_blank" rel="noopener"><div class="img-ph"><img src="assets/media/3841647943787326418_3841645965015334434.jpg" alt="몽젤로"></div></a>
+        <a href="#" target="_blank" rel="noopener"><div class="img-ph"><img src="assets/media/3841647943787326418_3841645973588491249.jpg" alt="몽젤로"></div></a>
+        <a href="#" target="_blank" rel="noopener"><div class="img-ph"><img src="assets/media/3841647943787326418_3841645981532490507.jpg" alt="몽젤로"></div></a>
+      </div>
+      <div class="section-cta reveal"><a href="#" target="_blank" rel="noopener" class="btn btn-secondary"><i data-lucide="camera"></i> 팔로우하기</a></div>
+    </div>
+  </section>
+
+<!-- 섹션 5: 소재·진정성 스토리 티저 (배경이미지 + 오버레이 + 상단 라운딩 + 가운데정렬) -->
+  <section class="ourstory">
+    <div class="ourstory-bg"><img src="assets/ourstory-bg.png?v=25" alt=""></div>
+    <div class="ourstory-inner reveal">
+      <p class="eyebrow">Our Story</p>
+      <h2 class="title">보이지 않는 곳까지,<br>직접 봅니다</h2>
+      <p class="desc">어디서 어떻게 만드는지 떳떳하게 보여드릴 수 있는 옷. 비용이 더 들어도 눈으로 확인하며 만드는 제작 방식을 택했습니다.</p>
+      <a href="story.html" class="btn btn-ghost btn-more">브랜드 스토리 보기 <i data-lucide="arrow-right"></i></a>
+    </div>
+  </section>
+
+  </main>
+
+<!-- ===================== 푸터 ===================== -->
+<footer class="site-footer">
+  <div class="w1400">
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <p class="footer-logo">MONGJELO</p>
+        <p class="footer-company">
+          상호 [플레이스홀더] · 대표자 [플레이스홀더]<br>
+          사업자등록번호 [플레이스홀더]<br>
+          통신판매업신고 [플레이스홀더]<br>
+          주소 [플레이스홀더]<br>
+          전화 [플레이스홀더] · 이메일 [플레이스홀더]
+        </p>
+      </div>
+      <div class="footer-col">
+        <button class="footer-col-title">쇼핑 <i data-lucide="chevron-down"></i></button>
+        <div class="footer-links"><a href="mongjelo.html">몽젤로</a><a href="zelobebe.html">젤로베베</a><a href="story.html">브랜드 스토리</a><a href="lookbook.html">룩북</a><a href="review.html">리뷰</a><a href="support.html">고객센터</a></div>
+      </div>
+      <div class="footer-col">
+        <button class="footer-col-title">고객지원 <i data-lucide="chevron-down"></i></button>
+        <div class="footer-links"><a href="support.html">사이즈 가이드</a><a href="support.html">배송/교환/반품</a><a href="support.html">자주 묻는 질문</a></div>
+      </div>
+      <div class="footer-col">
+        <button class="footer-col-title">SNS·뉴스레터 <i data-lucide="chevron-down"></i></button>
+        <div class="footer-links"><a href="#" class="footer-sns" target="_blank" rel="noopener"><i data-lucide="camera"></i> 인스타그램</a><p class="footer-newsletter-note">브랜딩 핵심 채널</p></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© MONGJELO. All rights reserved.</span>
+      <span class="escrow-slot">에스크로 마크 [플레이스홀더]</span>
+      <span class="footer-policy"><a href="#" class="privacy">개인정보처리방침</a><a href="#">이용약관</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="drag-cursor" id="dragCursor"><span class="ar">&#8249;</span><span class="t">Drag</span><span class="ar">&#8250;</span></div>
+
+<div class="floating">
+  <a href="#" class="float-btn float-kakao" aria-label="카카오톡 문의"><i data-lucide="message-circle"></i></a>
+  <button class="float-btn float-top" id="topBtn" aria-label="맨 위로"><i data-lucide="arrow-up"></i></button>
+</div>
+
+<script src="assets/site.js?v=37"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품 상세 | 몽젤로·젤로베베</title>
+<meta name="description" content="영유아부터 키즈까지, 직접 보고 짓는 정직한 소재의 유아동복. 젤로베베와 몽젤로.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="assets/site.css?v=37">
+</head>
+<body>
+
+<!-- ===================== 헤더 (와이어프레임 사이트맵) ===================== -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo"><img class="logo-img" src="assets/logo-mongjelo-b.svg" alt="몽젤로"></a>
+    <nav class="gnb">
+      <div class="gnb-item">
+        <a href="mongjelo.html">몽젤로 <i data-lucide="chevron-down"></i></a>
+        <div class="gnb-dd">
+          <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+          <a href="mongjelo.html">아우터</a><a href="mongjelo.html">상의</a><a href="mongjelo.html">하의</a>
+          <a href="mongjelo.html">세트</a><a href="mongjelo.html">기능성·액티브</a><a href="mongjelo.html">소품</a>
+        </div>
+      </div>
+      <div class="gnb-item">
+        <a href="zelobebe.html">젤로베베 <i data-lucide="chevron-down"></i></a>
+        <div class="gnb-dd">
+          <a href="zelobebe.html">아우터</a><a href="zelobebe.html">상의</a><a href="zelobebe.html">하의</a>
+          <a href="zelobebe.html">세트·한벌</a><a href="zelobebe.html">이너·베이직</a>
+          <a href="zelobebe.html">소품(모자·가방)</a><a href="zelobebe.html">오가닉</a>
+        </div>
+      </div>
+      <div class="gnb-item"><a href="story.html">브랜드 스토리</a></div>
+      <div class="gnb-item"><a href="lookbook.html">룩북</a></div>
+      <div class="gnb-item"><a href="review.html">리뷰</a></div>
+      <div class="gnb-item"><a href="support.html">고객센터</a></div>
+    </nav>
+    <div class="header-utils">
+      <a href="#" class="util-icon" aria-label="장바구니"><i data-lucide="shopping-bag"></i><span class="cart-badge">0</span></a>
+      <a href="#" class="util-icon" aria-label="마이페이지"><i data-lucide="user"></i></a>
+      <button class="hamburger" id="hamburger" aria-label="메뉴 열기"><i data-lucide="menu"></i></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head"><span class="header-logo"><img class="logo-img" src="assets/logo-mongjelo-b.svg" alt="몽젤로"></span><button class="drawer-close" id="drawerClose" aria-label="닫기"><i data-lucide="x"></i></button></div>
+  <ul class="drawer-menu">
+    <li class="drawer-acc">
+      <button class="drawer-acc-btn">몽젤로 <i data-lucide="chevron-down"></i></button>
+      <div class="drawer-sub">
+        <a href="mongjelo.html"><strong>★ 카이만 패딩</strong></a>
+        <a href="mongjelo.html">아우터</a><a href="mongjelo.html">상의</a><a href="mongjelo.html">하의</a>
+        <a href="mongjelo.html">세트</a><a href="mongjelo.html">기능성·액티브</a><a href="mongjelo.html">소품</a>
+      </div>
+    </li>
+    <li class="drawer-acc">
+      <button class="drawer-acc-btn">젤로베베 <i data-lucide="chevron-down"></i></button>
+      <div class="drawer-sub">
+        <a href="zelobebe.html">아우터</a><a href="zelobebe.html">상의</a><a href="zelobebe.html">하의</a>
+        <a href="zelobebe.html">세트·한벌</a><a href="zelobebe.html">이너·베이직</a>
+        <a href="zelobebe.html">소품(모자·가방)</a><a href="zelobebe.html">오가닉</a>
+      </div>
+    </li>
+    <li><a href="story.html">브랜드 스토리</a></li>
+    <li><a href="lookbook.html">룩북</a></li>
+    <li><a href="review.html">리뷰</a></li>
+    <li><a href="support.html">고객센터</a></li>
+  </ul>
+</aside>
+
+<main>
+
+<main>
+
+  <!-- 섹션 1: 상품 갤러리 + 구매 영역 -->
+  <section class="section" style="padding-top:150px;">
+    <div class="w1400">
+      <div class="pdp-top-inner">
+        <div class="pdp-gallery">
+          <div class="pdp-gallery-main"><div class="img-ph lg"><img src="assets/media/3819004172457640722.jpg" alt="몽젤로"></div></div>
+          <div class="pdp-thumbs">
+            <div class="pdp-thumb active"><i data-lucide="image"></i></div>
+            <div class="pdp-thumb"><i data-lucide="image"></i></div>
+            <div class="pdp-thumb"><i data-lucide="image"></i></div>
+            <div class="pdp-thumb"><i data-lucide="image"></i></div>
+            <div class="pdp-thumb"><i data-lucide="image"></i></div>
+          </div>
+        </div>
+        <div class="pdp-info">
+          <p class="pdp-brand">MONGJELO</p>
+          <h1 class="pdp-name">[상품명]</h1>
+          <a href="#pdpReview" class="pdp-rating-row"><i data-lucide="star"></i> 0.0 <span class="review-anchor">리뷰 000개</span></a>
+          <div class="pdp-price-block">
+            <p class="pdp-price">00,000원</p>
+            <p class="pdp-coupon-price"><span class="coupon-tag">쿠폰</span> 쿠폰 적용가 <strong>00,000원</strong></p>
+          </div>
+          <div class="pdp-option-group">
+            <p class="pdp-option-label">색상</p>
+            <button class="pdp-select">색상을 선택해주세요 <i data-lucide="chevron-down"></i></button>
+          </div>
+          <div class="pdp-option-group">
+            <p class="pdp-option-label">사이즈</p>
+            <button class="pdp-select">사이즈를 선택해주세요 <i data-lucide="chevron-down"></i></button>
+          </div>
+          <div class="pdp-option-group">
+            <p class="pdp-option-label">수량</p>
+            <div class="qty-stepper">
+              <button class="qty-btn"><i data-lucide="minus"></i></button>
+              <span class="qty-value">1</span>
+              <button class="qty-btn"><i data-lucide="plus"></i></button>
+            </div>
+          </div>
+          <div class="pdp-cta-row">
+            <button class="btn btn-secondary">장바구니</button>
+            <button class="btn btn-primary">바로 구매</button>
+            <button class="btn btn-secondary pdp-wish" aria-label="찜"><i data-lucide="heart"></i></button>
+          </div>
+          <p class="microcopy">오후 2시 이전 주문 시 내일 도착 [플레이스홀더 — 배송정책 확정]</p>
+          <div class="pdp-benefit">
+            <div class="pdp-benefit-row"><i data-lucide="gift"></i> 구매 시 0,000원 적립 [플레이스홀더]</div>
+            <div class="pdp-benefit-row"><i data-lucide="truck"></i> 00,000원 이상 무료배송 [플레이스홀더]</div>
+            <div class="pdp-benefit-row"><i data-lucide="refresh-cw"></i> 사이즈 교환 안내 [플레이스홀더 — 교환정책 확정]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 2: 핵심 셀링 포인트 -->
+  <section class="section soft">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">핵심 셀링 포인트</p>
+        <h2 class="en">Point</h2>
+      </div>
+      <div class="selling-grid">
+        <div class="selling-card reveal"><div class="icon-box"><i data-lucide="ruler"></i></div><p class="selling-card-title">포인트 1 [플레이스홀더]</p><p class="selling-card-desc">몽젤로형: 핏 — 생활 장면 카피<br>젤로베베형: 소재 안전 카피</p></div>
+        <div class="selling-card reveal d1"><div class="icon-box"><i data-lucide="activity"></i></div><p class="selling-card-title">포인트 2 [플레이스홀더]</p><p class="selling-card-desc">몽젤로형: 활동성 — 생활 장면 카피<br>젤로베베형: 맨살에 닿는 촉감 카피</p></div>
+        <div class="selling-card reveal d2"><div class="icon-box"><i data-lucide="washing-machine"></i></div><p class="selling-card-title">포인트 3 [플레이스홀더]</p><p class="selling-card-desc">몽젤로형: 관리 편의 카피<br>젤로베베형: 세탁 내구 카피</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 3: 디테일 이미지 -->
+  <section class="section">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">디테일</p>
+        <h2 class="en">Detail</h2>
+      </div>
+      <div class="detail-stack">
+        <div class="img-ph detail-img reveal"><img src="assets/media/3819006239913987382.jpg" alt="몽젤로"></div>
+        <div class="img-ph detail-img reveal"><img src="assets/media/3828726635642905525.jpg" alt="몽젤로"></div>
+        <div class="detail-video reveal"><span>GIF / 숏폼 — 늘어남·촉감 [플레이스홀더]</span></div>
+        <div class="img-ph detail-img reveal"><img src="assets/media/3828732348603724296.jpg" alt="몽젤로"></div>
+        <div class="img-ph detail-img reveal"><img src="assets/media/3829446426586392813_3829441638721262627.jpg" alt="몽젤로"></div>
+        <div class="detail-video reveal"><span>GIF / 숏폼 [플레이스홀더]</span></div>
+        <div class="img-ph detail-img reveal"><img src="assets/media/3829933917345071294_3829932668012920251.jpg" alt="몽젤로"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 4: 소재·케어 정보 -->
+  <section class="section soft">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">소재 · 케어 정보</p>
+        <h2 class="en">Info</h2>
+      </div>
+      <div class="care-tables">
+        <div class="reveal">
+          <p class="care-table-title">혼용률 / 세탁법 / 주의사항</p>
+          <table class="wf-table">
+            <tr><th>혼용률</th><td>면 00% · [소재명] 00% [플레이스홀더]</td></tr>
+            <tr><th>세탁법</th><td>30℃ 이하 단독 세탁 권장 [플레이스홀더]</td></tr>
+            <tr><th>주의사항</th><td>표백·건조기 사용 주의 [플레이스홀더]</td></tr>
+          </table>
+          <div class="cert-slot">
+            <div class="cert-badge">오가닉 인증<br>[플레이스홀더]</div>
+            <div class="cert-badge">친환경 인증<br>[플레이스홀더]</div>
+          </div>
+        </div>
+        <div class="reveal d1">
+          <p class="care-table-title">사이즈 실측표</p>
+          <div class="table-scroll">
+            <table class="wf-table">
+              <tr><th>사이즈</th><th>총장</th><th>가슴단면</th><th>어깨너비</th><th>소매길이</th><th>밑단</th></tr>
+              <tr><td>S</td><td>00</td><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>M</td><td>00</td><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+              <tr><td>L</td><td>00</td><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 5: 사이즈 가이드 -->
+  <section class="section">
+    <div class="w1400">
+      <div class="sizeguide-inner reveal">
+        <p class="act-label">Size Guide</p>
+        <h2 class="title" style="font-family:var(--serif);font-size:38px;font-weight:700;color:var(--black);">사이즈가 고민되시나요?</h2>
+        <table class="wf-table" style="margin-top:28px;">
+          <tr><th>키 / 개월수</th><th>추천 사이즈</th></tr>
+          <tr><td>000cm ~ 000cm / 00개월 [플레이스홀더]</td><td>S</td></tr>
+          <tr><td>000cm ~ 000cm [플레이스홀더]</td><td>M</td></tr>
+          <tr><td>000cm ~ 000cm [플레이스홀더]</td><td>L</td></tr>
+        </table>
+        <div class="sizeguide-cta"><a href="#pdpReview" class="btn btn-secondary"><i data-lucide="users"></i> 내 아이 또래 리뷰 보기</a></div>
+        <p class="microcopy">혹시 안 맞아도 편하게 교환하세요 [플레이스홀더 — 교환정책 확정]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 6: 포토 리뷰 -->
+  <section class="section soft" id="pdpReview">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">포토 리뷰</p>
+        <h2 class="en">Review</h2>
+      </div>
+      <div class="review-summary-bar reveal">
+        <div class="review-score">
+          <span class="review-score-num">0.0</span>
+          <div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+        </div>
+        <p class="review-summary-copy">이미 <strong>OO명</strong>의 아이가 입었어요 [자동적용]</p>
+      </div>
+      <div class="filter-chips reveal">
+        <button class="chip active">전체</button>
+        <button class="chip"><i data-lucide="camera"></i> 포토리뷰만</button>
+        <button class="chip">내 체형/또래 비슷한</button>
+        <button class="chip">별점 낮은순</button>
+      </div>
+      <div class="review-photo-grid reveal" style="margin-top:40px;">
+        <div class="img-ph"><img src="assets/media/3836367554798077465.jpg" alt="몽젤로"></div>
+        <div class="img-ph"><img src="assets/media/3836372508237527000.jpg" alt="몽젤로"></div>
+        <div class="img-ph"><img src="assets/media/3841647943787326418_3841645944362623795.jpg" alt="몽젤로"></div>
+        <div class="img-ph"><img src="assets/media/3848767379254451522.jpg" alt="몽젤로"></div>
+        <div class="img-ph"><img src="assets/media/3860454540122953390.jpg" alt="몽젤로"></div>
+        <div class="img-ph"><img src="assets/media/3829446426586392813_3829441639761478920.jpg" alt="몽젤로"></div>
+      </div>
+      <div class="review-list">
+        <div class="review-item reveal"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441641808298143.jpg" alt="몽젤로"></div><div><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-item-meta">00개월 / 키 000cm / 사이즈 M 구매 [플레이스홀더]</p><p class="review-item-text">리뷰 본문 [플레이스홀더]</p></div></div>
+        <div class="review-item reveal"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441646044546955.jpg" alt="몽젤로"></div><div><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-item-meta">00개월 / 키 000cm / 사이즈 S 구매 [플레이스홀더]</p><p class="review-item-text">리뷰 본문 [플레이스홀더]</p></div></div>
+        <div class="review-item reveal"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441647017629879.jpg" alt="몽젤로"></div><div><div class="stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-item-meta">00개월 / 키 000cm / 사이즈 L 구매 [플레이스홀더]</p><p class="review-item-text">리뷰 본문 [플레이스홀더]</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 섹션 7: 함께 본 / 같은 결의 상품 -->
+  <section class="section">
+    <div class="w1400">
+      <div class="sec-tit reveal">
+        <p class="tag">함께 본 / 같은 결의 상품</p>
+        <h2 class="en">Related</h2>
+      </div>
+      <div class="related-carousel reveal">
+        <a href="product.html" class="related-card"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441647177006628.jpg" alt="몽젤로"></div><p class="product-name">[연관 상품 1]</p><p class="product-price">00,000원</p><p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p></a>
+        <a href="product.html" class="related-card"><div class="img-ph"><img src="assets/media/3829446426586392813_3829441648787600192.jpg" alt="몽젤로"></div><p class="product-name">[연관 상품 2]</p><p class="product-price">00,000원</p><p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p></a>
+        <a href="product.html" class="related-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932675638157026.jpg" alt="몽젤로"></div><p class="product-name">[연관 상품 3]</p><p class="product-price">00,000원</p><p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p></a>
+        <a href="product.html" class="related-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932684899132033.jpg" alt="몽젤로"></div><p class="product-name">[연관 상품 4]</p><p class="product-price">00,000원</p><p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p></a>
+        <a href="product.html" class="related-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932691836506306.jpg" alt="몽젤로"></div><p class="product-name">[연관 상품 5]</p><p class="product-price">00,000원</p><p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p></a>
+        <a href="product.html" class="related-card"><div class="img-ph"><img src="assets/media/3829933917345071294_3829932699931547548.jpg" alt="몽젤로"></div><p class="product-name">[연관 상품 6]</p><p class="product-price">00,000원</p><p class="product-rating"><i data-lucide="star"></i> 0.0 (000)</p></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</main>
+
+<!-- ===================== 푸터 ===================== -->
+<footer class="site-footer">
+  <div class="w1400">
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <p class="footer-logo">MONGJELO</p>
+        <p class="footer-company">
+          상호 [플레이스홀더] · 대표자 [플레이스홀더]<br>
+          사업자등록번호 [플레이스홀더]<br>
+          통신판매업신고 [플레이스홀더]<br>
+          주소 [플레이스홀더]<br>
+          전화 [플레이스홀더] · 이메일 [플레이스홀더]
+        </p>
+      </div>
+      <div class="footer-col">
+        <button class="footer-col-title">쇼핑 <i data-lucide="chevron-down"></i></button>
+        <div class="footer-links"><a href="mongjelo.html">몽젤로</a><a href="zelobebe.html">젤로베베</a><a href="story.html">브랜드 스토리</a><a href="lookbook.html">룩북</a><a href="review.html">리뷰</a><a href="support.html">고객센터</a></div>
+      </div>
+      <div class="footer-col">
+        <button class="footer-col-title">고객지원 <i data-lucide="chevron-down"></i></button>
+        <div class="footer-links"><a href="support.html">사이즈 가이드</a><a href="support.html">배송/교환/반품</a><a href="support.html">자주 묻는 질문</a></div>
+      </div>
+      <div class="footer-col">
+        <button class="footer-col-title">SNS·뉴스레터 <i data-lucide="chevron-down"></i></button>
+        <div class="footer-links"><a href="#" class="footer-sns" target="_blank" rel="noopener"><i data-lucide="camera"></i> 인스타그램</a><p class="footer-newsletter-note">브랜딩 핵심 채널</p></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© MONGJELO. All rights reserved.</span>
+      <span class="escrow-slot">에스크로 마크 [플레이스홀더]</span>
+      <span class="footer-policy"><a href="#" class="privacy">개인정보처리방침</a><a href="#">이용약관</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="floating">
+  <a href="#" class="float-btn float-kakao" aria-label="카카오톡 문의"><i data-lucide="message-circle"></i></a>
+  <button class="float-btn float-top" id="topBtn" aria-label="맨 위로"><i data-lucide="arrow-up"></i></button>
+</div>
+
+<script src="assets/site.js?v=37"></script>
+</body>
+</html>

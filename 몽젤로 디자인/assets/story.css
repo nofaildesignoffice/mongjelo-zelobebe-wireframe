@@ -1,0 +1,141 @@
+/* ============================================================
+   Brand Story — make-on 브랜드 스토리 애니메이션 시스템 이식
+   (GSAP ScrollTrigger: fade-up / bg-black 전환 / 카드 페이드업 / pin scrub)
+   ============================================================ */
+@keyframes fadeUp{0%{transform:translateY(120px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+
+.brand-wrap{position:relative;background:#fff;color:#111;transition:background-color .8s var(--ease),color .8s var(--ease);}
+.brand-wrap.bg-black{background:#000;color:#fff;}
+.brand-sec{position:relative;}
+.brand-sec .w1400{max-width:1400px;margin:0 auto;padding:0 40px;}
+
+/* 상단 인트로 — 스티키로 고정, 스크롤 시 sec01 이미지가 덮음 */
+.intro-cover{position:relative;z-index:0;}
+.story-intro{position:sticky;top:0;z-index:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
+.story-intro .en{font-family:var(--mont);font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--light);margin-bottom:24px;}
+.story-intro .tit{font-family:var(--sans);font-size:clamp(34px,4.8vw,58px);font-weight:600;line-height:1.28;color:var(--black);}
+.story-intro .sub{margin-top:26px;font-size:18px;color:var(--gray);font-weight:300;}
+
+/* sec01: 대형 이미지 + 3라인 — 스티키 인트로 위로 올라와 덮음 */
+.brand-sec01{position:relative;z-index:2;background:var(--bg);margin-top:0;padding-top:clamp(40px,8vh,90px);}
+.brand-sec01 .img-box{max-width:1400px;margin:0 auto;overflow:hidden;}
+.brand-sec01 .img-box .img-ph{aspect-ratio:16/9;}
+
+/* 히어로(흰) → 원형 확장으로 검정 전환 → 검정 텍스트 (make-on 연결부 재현) */
+.hero-trans{position:relative;height:260vh;}
+.ht-stage{position:sticky;top:0;height:100vh;overflow:hidden;}
+.ht-white{position:absolute;inset:0;z-index:1;background:#000 url('hero-story.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
+.ht-white::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.42);z-index:0;}
+.ht-white .en,.ht-white .tit,.ht-white .sub{position:relative;z-index:1;}
+.ht-white .en{font-family:var(--mont);font-size:13px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:24px;}
+.ht-white .tit{font-family:var(--sans);font-size:clamp(34px,4.8vw,58px);font-weight:600;line-height:1.28;color:#fff;}
+.ht-white .sub{margin-top:26px;font-size:18px;color:rgba(255,255,255,.85);font-weight:300;}
+.ht-black{position:absolute;inset:0;z-index:2;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;clip-path:circle(0% at 50% 50%);will-change:clip-path;transition:clip-path .55s cubic-bezier(.34,1.32,.5,1);}
+.ht-lines{display:flex;flex-direction:column;gap:clamp(28px,5vh,56px);max-width:900px;}
+.ht-lines .cl{opacity:0;transform:translateY(34px);filter:blur(9px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);font-weight:500;font-size:clamp(18px,1.9vw,26px);line-height:1.6;}
+.ht-black.lines-in .cl{opacity:1;transform:none;filter:blur(0);}
+.ht-black.lines-in .cl:nth-child(2){transition-delay:.2s;}
+.ht-black.lines-in .cl:nth-child(3){transition-delay:.4s;}
+
+/* 이미지 둥근 카드 (검정 위) */
+.story-imgcard{padding:clamp(20px,5vh,70px) 0 clamp(60px,10vh,120px);}
+.story-imgcard .ic-card{max-width:1100px;margin:0 auto;border-radius:clamp(20px,2.4vw,34px);overflow:hidden;aspect-ratio:16/9;background:#0d0d0d;}
+.story-imgcard .ic-card img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* 스크롤 페이드업 (make-on fadeUp: y120, opacity, power2.out ≈ cubic-bezier) */
+.fade-up,.card-fade-up{opacity:0;transform:translateY(72px);filter:blur(10px);transition:opacity 1.2s cubic-bezier(.25,.46,.45,.94),transform 1.2s cubic-bezier(.25,.46,.45,.94),filter 1.2s cubic-bezier(.25,.46,.45,.94);will-change:opacity,transform,filter;}
+.fade-up.in,.card-fade-up.in{opacity:1;transform:none;filter:blur(0);}
+.card-fade-up:nth-child(2),.card-fade-up:nth-child(4){transition-delay:.12s;}
+
+/* sec02: bg-black 전환 + 대형 헤드라인 */
+.brand-sec02{padding:240px 0;}
+.brand-sec02 h3{font-family:var(--sans);font-size:clamp(30px,4.2vw,52px);font-weight:600;line-height:1.32;text-align:center;opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.25,.46,.45,.94) .15s,transform 1s cubic-bezier(.25,.46,.45,.94) .15s;}
+.brand-sec02 h3.in{opacity:1;transform:none;}
+
+/* sec03: Brand Values — make-on 3열 포트레이트 카드(텍스트 상단 + 이미지 하단, 흰색 라운드) */
+.brand-sec03{padding:160px 0;}
+.brand-sec03 .sub-tit{font-family:var(--sans);font-size:clamp(34px,3.6vw,46px);font-weight:600;text-align:center;margin-bottom:64px;}
+.brand-sec03 .list{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1400px;margin:0 auto;padding:0 40px;}
+.brand-sec03 .card .item{display:flex;flex-direction:column;background:#fff;border-radius:30px;overflow:hidden;padding:48px 30px 26px;height:100%;box-shadow:0 24px 50px rgba(0,0,0,.10);}
+.brand-sec03 .card .txt{flex:1;}
+.brand-sec03 .card .txt h4{font-family:var(--sans);font-size:22px;font-weight:600;margin-bottom:14px;color:var(--black);}
+.brand-sec03 .card .txt strong{display:block;font-size:17px;font-weight:600;margin-bottom:12px;color:var(--black);}
+.brand-sec03 .card .txt p{font-size:14px;line-height:1.7;color:var(--gray);}
+.brand-sec03 .card figure{margin-top:28px;border-radius:18px;overflow:hidden;aspect-ratio:16/10;position:relative;}
+.brand-sec03 .card figure .img-ph{position:absolute;inset:0;height:100%;}
+.card-fade-up,.card-fade-up02,.fade-up{will-change:transform,opacity;}
+@media(max-width:1024px){ .brand-sec03 .list{grid-template-columns:1fr 1fr;} }
+@media(max-width:600px){ .brand-sec03 .list{grid-template-columns:1fr;} .brand-sec03 .card .item{padding:36px 24px 22px;} }
+
+/* sec04: 세로 타임라인 — 스크롤로 선이 내려오며 젤로베베 → 몽젤로 가운데 등장 */
+.brand-sec04{height:320vh;}
+.grow-stage{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.grow-line{position:absolute;left:50%;top:0;transform:translateX(-50%);width:1px;height:100%;background:rgba(255,255,255,.13);z-index:0;}
+.grow-line-fill{position:absolute;left:0;top:0;width:100%;height:0;background:rgba(255,255,255,.85);}
+.grow-panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,74vw);z-index:2;}
+.grow-media{position:relative;aspect-ratio:3/4;border-radius:18px;overflow:hidden;background:#000;}
+.grow-media .img-ph{position:absolute;inset:0;height:100%;}
+.grow-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.74));}
+.grow-cap{position:absolute;left:24px;right:24px;bottom:30px;z-index:3;text-align:center;font-size:clamp(15px,1.3vw,19px);color:#fff;font-weight:400;line-height:1.55;}
+.grow-zelo{opacity:1;}
+.grow-mong{opacity:0;}
+
+/* sec05: 클로징 메시지 + 소재 약속 + CTA */
+.brand-sec05{padding:200px 0;text-align:center;}
+.brand-sec05 .en{font-family:var(--mont);font-size:13px;letter-spacing:3px;text-transform:uppercase;opacity:.55;margin-bottom:22px;}
+.brand-sec05 .msg{font-family:var(--sans);font-size:clamp(30px,4vw,48px);font-weight:600;line-height:1.4;}
+.brand-sec05 .msg .pt{color:var(--gray);}
+.brand-wrap.bg-black .brand-sec05 .msg .pt{color:rgba(255,255,255,.6);}
+.brand-sec05 .lead{margin-top:30px;font-size:17px;line-height:1.9;opacity:.7;max-width:680px;margin-left:auto;margin-right:auto;font-weight:300;}
+.story-promise{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;max-width:1000px;margin:80px auto 0;}
+.story-promise .it{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.story-promise .ic{width:74px;height:74px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+.brand-wrap.bg-black .story-promise .ic{border-color:rgba(255,255,255,.2);}
+.story-promise .ic svg{width:30px;height:30px;}
+.story-promise .pt-tit{font-size:14px;font-weight:600;}
+.story-promise .pt-d{font-size:12px;opacity:.6;}
+.story-cta{display:flex;gap:14px;justify-content:center;margin-top:70px;flex-wrap:wrap;}
+.story-cta .btn-line{display:inline-flex;align-items:center;gap:9px;height:58px;padding:0 40px;border:1px solid currentColor;font-size:15px;font-weight:600;transition:.3s var(--ease);}
+.story-cta .btn-line:hover{background:currentColor;}
+.story-cta .btn-line:hover span{color:var(--bg);}
+.brand-wrap.bg-black .story-cta .btn-line:hover span{color:#111;}
+
+@media (max-width:768px){
+  .story-intro{padding-top:150px;}
+  .brand-sec01{margin-top:70px;} .brand-sec01 ul{padding:64px 0 0;}
+  .brand-sec01 ul li:nth-of-type(2){margin:28px 0;}
+  .brand-sec02{padding:140px 0;}
+  .brand-sec03{padding:100px 0;} .brand-sec03 .list{grid-template-columns:1fr;gap:18px;}
+  .brand-sec03 .card .item{grid-template-columns:1fr;min-height:0;}
+  .brand-sec03 .card figure{height:240px;} .brand-sec03 .card figure .img-ph{position:relative;}
+  .grow-panel{width:82vw;}
+  .brand-sec05{padding:120px 0;} .story-promise{grid-template-columns:repeat(2,1fr);gap:30px;}
+}
+
+/* ── 몽젤로/젤로베베 페이지에서 이동해온 섹션 (스토리 다크 배경용 디자인) ── */
+.story-add{padding:clamp(96px,14vh,170px) 0;text-align:center;}
+.story-add .w1400{max-width:1100px;margin:0 auto;padding:0 40px;}
+.story-add-head{margin-bottom:clamp(44px,6vh,72px);}
+.story-add-head .en{font-family:var(--mont);font-size:13px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:20px;}
+.story-add-head .tit{font-family:var(--sans);font-weight:600;font-size:clamp(28px,3.4vw,46px);line-height:1.3;letter-spacing:-0.3px;}
+
+/* 몽젤로 디자인 철학 (COMFORT/BALANCE/DETAIL) */
+.story-philo .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,44px);max-width:1040px;margin:0 auto;}
+.story-philo .col .img-ph{aspect-ratio:4/5;margin-bottom:clamp(20px,2.4vh,30px);}
+.story-philo .col .pen{font-family:var(--mont);font-size:clamp(15px,1.3vw,18px);letter-spacing:3px;color:#fff;margin-bottom:12px;}
+.story-philo .col .desc{font-size:15px;line-height:1.7;color:rgba(255,255,255,.72);}
+.story-philo .statement{margin:clamp(52px,7vh,88px) auto 0;max-width:760px;font-size:clamp(16px,1.3vw,19px);line-height:1.95;color:rgba(255,255,255,.8);}
+.story-philo .statement strong{display:inline-block;margin-top:6px;color:#fff;font-weight:600;}
+
+/* 소재 (Material) */
+.story-material .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(22px,2.6vw,44px);max-width:1040px;margin:0 auto;}
+.story-material .mi{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.story-material .mi .ic{width:74px;height:74px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;}
+.story-material .mi .ic svg{width:28px;height:28px;color:#fff;stroke-width:1.4;}
+.story-material .mi .nm{font-size:16px;font-weight:600;color:#fff;}
+.story-material .mi .d{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;}
+
+@media (max-width:768px){
+  .story-philo .cols{grid-template-columns:1fr;gap:36px;}
+  .story-material .grid{grid-template-columns:1fr 1fr;gap:32px;}
+}
